@@ -1,3 +1,5 @@
+/* General Adjustments */
+
 * {
     margin: 0;
     padding: 0;
@@ -45,6 +47,8 @@ body {
     color: var(--subtle-text);
     font-size: 1.8rem;
 }
+
+/* Dashboard / Homepage */
 
 .dashboard-grid {
     display: grid;
@@ -95,4 +99,81 @@ body {
 
 .footer-links a:hover {
     color: var(--primary);
+}
+
+
+/* Task Wigdet Page */
+
+.back-link-container {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.back-link {
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.back-link:hover {
+    color: var(--hover-blue);
+    text-decoration: underline;
+}
+
+.task-widget {
+    max-width: 37.5rem;
+    padding: 2rem;
+    margin: 2rem auto;
+}
+
+.task-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.task-form input {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.submit-task {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-task:hover {
+    background-color: var(--hover-blue);
+}
+
+#task-list {
+    list-style: none;
+    margin-top: 1.5rem;
+    padding-left: 0;
+}
+
+.task-item {
+ padding: 0.5rem 1rem;
+ background-color: var(--card-bg);
+ border: 2px solid var(--border-light);
+ border-radius: 12px;
+ margin-bottom: 0.5rem;
+ color: var(--text);
+ box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+ font-size: 1rem;
+ transition: background-color 0.3s ease;
+}
+
+.task-item:hover {
+    background-color: var(--background);
+    cursor: pointer;
 }

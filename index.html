@@ -1,106 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Life Dashboard</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
 
-
-
-</head>
-
-<body>
+  <body>
     <div class="app-container">
-        <!-- Header -->
-        <header class="app-header">
-            <h1>Life Dashboard</h1>
-            <p>Organize your days with clarity and purpose.</p>
-        </header>
+      <!-- Header -->
+      <header class="app-header">
+        <h1>Life Dashboard</h1>
+        <p>Organize your days with clarity and purpose.</p>
+      </header>
 
-        <!-- Main Content -->
+      <!-- Main Content -->
 
-        <!-- Task Manager -->
-        <main class="dashboard-grid">
-            <section class="card" id="task-manager">
-                <img src="assets/images/widgets/task-manager.svg" alt="Task Manager Illustration"
-                    class="widget-illustration">
-                <h2><i class="fa-solid fa-list-check"></i> Task Manger</h2>
-                <div class="widget-content">
+      <!-- Task Manager -->
+      <main class="dashboard-grid">
+        <a href="task.html" class="card-link">
+          <section
+            class="card widget-card"
+            data-widget="task-manager"
+            id="task-manager"
+          >
+            <img
+              src="assets/images/widgets/task-manager.svg"
+              alt="Task Manager Illustration"
+              class="widget-illustration"
+            />
+            <h2><i class="fa-solid fa-list-check"></i> Task Manager</h2>
+            <div class="widget-content"></div>
+          </section>
+        </a>
 
-                </div>
-            </section>
+        <!-- Weekly Goals -->
+        <a href="goals.html" class="card-link">
+          <section class="card" id="weekly-goals">
+            <img
+              src="assets/images/widgets/weekly-goals.svg"
+              alt="Weekly Goals Illustration"
+              class="widget-illustration"
+            />
+            <h2><i class="fa-solid fa-bullseye"></i> Weekly Goals</h2>
+            <div class="widget-content"></div>
+          </section>
+        </a>
 
-            <!-- Weekly Goals -->
-            <section class="card" id="weekly-goals">
-                <img src="assets/images/widgets/weekly-goals.svg" alt="Weekly Goals Illustration"
-                    class="widget-illustration">
-                <h2><i class="fa-solid fa-bullseye"></i> Weekly Goals</h2>
-                <div class="widget-content">
+        <!-- Notes -->
+        <a href="notes.html" class="card-link">
+          <section class="card" id="notes">
+            <img
+              src="assets/images/widgets/notes.svg"
+              alt="Notes Illustration"
+              class="widget-illustration"
+            />
+            <h2><i class="fa-solid fa-pen-to-square"></i> Notes</h2>
+            <div class="widget-content"></div>
+          </section>
+        </a>
 
-                </div>
-            </section>
+        <!-- Habits Tracker -->
+        <a href="habits.html" class="card-link">
+          <section class="card" id="habit-tracker">
+            <img
+              src="assets/images/widgets/habit-tracker.svg"
+              alt="Habit Tracker Illustration"
+              class="widget-illustration"
+            />
+            <h2><i class="fa-solid fa-dumbbell"></i> Habit Tracker</h2>
+            <div class="widget-content"></div>
+          </section>
+        </a>
 
-            <!-- Notes -->
-            <section class="card" id="notes">
-                <img src="assets/images/widgets/notes.svg" alt="Notes Illustration" class="widget-illustration">
-                <h2><i class="fa-solid fa-pen-to-square"></i> Notes</h2>
-                <div class="widget-content">
+        <!-- Budget Tracker -->
+        <a href="budget.html" class="card-link">
+          <section class="card" id="budget-tracker">
+            <img
+              src="assets/images/widgets/budget-tracker.svg"
+              alt="Budget Tracker Illustration"
+              class="widget-illustration"
+            />
+            <h2>
+              <i class="fa-solid fa-money-bill-trend-up"></i> Budget Tracker
+            </h2>
+            <div class="widget-content"></div>
+          </section>
+        </a>
 
-                </div>
-            </section>
+        <!-- Weather and Quotes -->
+        <a href="inspiration.html" class="card-link">
+          <section class="card" id="inspiration">
+            <img
+              src="assets/images/widgets/inspiration.svg"
+              alt="Inspiration Illustration"
+              class="widget-illustration"
+            />
+            <h2><i class="fa-solid fa-cloud-sun"></i> Weather & Quote</h2>
+            <div class="widget-content"></div>
+          </section>
+        </a>
+      </main>
 
-            <!-- Habit Tracker -->
-            <section class="card" id="habit-tracker">
-                <img src="assets/images/widgets/habit-tracker.svg" alt="Habit Tracker Illustration"
-                    class="widget-illustration">
-                <h2><i class="fa-solid fa-dumbbell"></i> Habit Tracker</h2>
-                <div class="widget-content">
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>Simple tools. Real life. — Richard Morales</p>
+        <nav class="footer-links">
+          <a href="https://richard-morales.github.io/#about" target="_blank"
+            >About</a
+          >
+          <a href="https://richard-morales.github.io/#contact" target="_blank"
+            >Contact</a
+          >
+          <a href="https://github.com/richard-morales" target="_blank"
+            >GitHub</a
+          >
+        </nav>
+      </footer>
+    </div>
 
-                </div>
-            </section>
-
-            <!-- Budget Tracker -->
-            <section class="card" id="budget-tracker">
-                <img src="assets/images/widgets/budget-tracker.svg" alt="Budget Tracker Illustration"
-                    class="widget-illustration">
-                <h2><i class="fa-solid fa-money-bill-trend-up"></i> Budget Tracker</h2>
-                <div class="widget-content">
-
-                </div>
-            </section>
-
-            <!-- Weather and Quotes -->
-            <section class="card" id="inspiration">
-                <img src="assets/images/widgets/inspiration.svg" alt="Inspiration Illustration"
-                    class="widget-illustration">
-                <h2><i class="fa-solid fa-cloud-sun"></i> Weather & Quote</h2>
-                <div class="widget-content">
-
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="app-footer">
-            <p>Simple tools. Real life. — Richard Morales</p>
-            <nav class="footer-links">
-                <a href="https://richard-morales.github.io/#about" target="_blank">About</a>
-                <a href="https://richard-morales.github.io/#contact" target="_blank">Contact</a>
-                <a href="https://github.com/richard-morales" target="_blank">GitHub</a>
-            </nav>
-        </footer>
+    <div class="modal-overlay hidden" id="widgetModal">
+      <div class="modal">
+        <button class="close-modal">&times;</button>
+        <div class="modal-content" id="modalContent"></div>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
-
+  </body>
 </html>
