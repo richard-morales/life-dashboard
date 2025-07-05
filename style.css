@@ -133,13 +133,19 @@ text-decoration: none;
 
 .task-form {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
     position: relative; 
     top: 0.7rem;  /* Centered input and button manually */
 }
 
 .task-form input {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
     padding: 0.6rem 1rem;
     border: 1px solid var(--border-light);
     border-radius: 8px;
@@ -155,6 +161,16 @@ text-decoration: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-text {
+    display: none;
 }
 
 .submit-task:hover {
@@ -182,4 +198,32 @@ text-decoration: none;
 .task-item:hover {
     background-color: var(--background);
     cursor: pointer;
+}
+
+/* Media Query */
+
+@media (max-width: 400px) {
+    .task-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+.submit-task {
+    width: 100%;
+    min-width: 0;
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-text {
+display: inline;
+}
+
+.submit-task i {
+    margin-right: 0.4rem;
+}
 }
