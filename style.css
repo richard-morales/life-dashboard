@@ -64,6 +64,10 @@ body {
     transition: transform 0.2s ease;
 }
 
+.card-link {
+text-decoration: none;
+}
+
 .card:hover {
     transform: translateY(-5px);
 }
@@ -130,6 +134,8 @@ body {
 .task-form {
     display: flex;
     gap: 0.5rem;
+    position: relative; 
+    top: 0.7rem;  /* Centered input and button manually */
 }
 
 .task-form input {
