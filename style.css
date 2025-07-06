@@ -130,6 +130,8 @@ body {
   margin: 2rem auto;
 }
 
+/* New Tasks Form */
+
 .task-form {
   display: flex;
   flex-wrap: wrap;
@@ -182,6 +184,8 @@ body {
   padding-left: 0;
 }
 
+/* New Tasks List */
+
 .task-item {
   display: flex;
   align-items: stretch;
@@ -230,6 +234,22 @@ body {
 
 .task-item.completed .task-text::after {
   width: 100%;
+}
+
+/* Delete Task Button */
+
+.delete-task {
+  background: transparent;
+  border: none;
+  color: var(--subtle-text);
+  font-size: 1rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: color 0.1s ease;
+}
+
+.delete-task:hover {
+  color: red;
 }
 
 /* Media Query */
