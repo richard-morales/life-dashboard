@@ -18,47 +18,45 @@ function loadTasksFromLocalStorage() {
 // Handle form submission
 
 taskForm.addEventListener("submit", function (event) {
-  // Prevent page reload on submit
   event.preventDefault();
-
-  // Get trimmed input value
   const taskText = taskInput.value.trim();
-
-  // If input is not empty, create and add task
   if (taskText != "") {
     const newTask = document.createElement("li");
     newTask.classList.add("task-item");
-
-    // Create a span for the task text
     const taskTextSpan = document.createElement("span");
     taskTextSpan.textContent = taskText;
     taskTextSpan.classList.add("task-text");
-
-    // Create delete button
     const deleteBtn = document.createElement("button");
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
     deleteBtn.classList.add("delete-task");
 
-    // Add click event to delete task
-    deleteBtn.addEventListener("click", () => {
-      taskList.removeChild(newTask);
-    });
-
-    // Toggle completed class on click
+    // Add click event to toggle completion and update localStorage
     taskTextSpan.addEventListener("click", () => {
       newTask.classList.toggle("completed");
+
+      // Update completion in localStorage for this task
+      const updatedTasks = loadTasksFromLocalStorage().map((t) =>
+        t.text === taskText
+          ? { ...t, completed: newTask.classList.contains("completed") }
+          : t
+      );
+      saveTasksToLocalStorage(updatedTasks);
     });
 
-    // Append the span to the list item
+    // Delete logic
+    deleteBtn.addEventListener("click", () => {
+      taskList.removeChild(newTask);
+      const updatedTasks = loadTasksFromLocalStorage().filter(
+        (t) => t.text !== taskText
+      );
+      saveTasksToLocalStorage(updatedTasks);
+    });
+
     newTask.appendChild(taskTextSpan);
-
-    // Append the delete button
     newTask.appendChild(deleteBtn);
-
-    // Append task to the list
     taskList.appendChild(newTask);
 
-    // Save to local storage
+    // Save to local storage as incomplete initially
     const currentTasks = loadTasksFromLocalStorage();
     currentTasks.push({
       text: taskText,
@@ -66,10 +64,6 @@ taskForm.addEventListener("submit", function (event) {
     });
     saveTasksToLocalStorage(currentTasks);
 
-    // Apply styling class
-    newTask.classList.add("task-item");
-
-    // Clear input field
     taskInput.value = "";
   }
 });
@@ -97,7 +91,9 @@ window.addEventListener("DOMContentLoaded", () => {
       newTask.classList.toggle("completed");
 
       const updatedTasks = loadTasksFromLocalStorage().map((t) =>
-        t.text === task.text ? { ...t, completed: !task.completed } : t
+        t.text === task.text
+          ? { ...t, completed: newTask.classList.contains("completed") }
+          : t
       );
       saveTasksToLocalStorage(updatedTasks);
     });
