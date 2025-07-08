@@ -382,6 +382,11 @@ body {
   color: var(--primary);
 }
 
+#budget-transaction,
+#budget-summary {
+  display: none;
+}
+
 /* Media Query / Submit Task Widget */
 @media (max-width: 400px) {
   .task-form {
