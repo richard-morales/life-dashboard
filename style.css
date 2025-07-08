@@ -252,8 +252,137 @@ body {
   color: red;
 }
 
-/* Media Query */
+/* Budget Widget Page */
 
+.budget-widget {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#budget-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+#budget-form select,
+#budget-form input,
+.submit-budget {
+  font-size: 1rem;
+  padding: 0.5rem 0.9rem;
+  line-height: 1.3;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+#budget-form select,
+#budget-form input {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+#budget-form select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.submit-budget {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.submit-budget:hover {
+  background-color: var(--hover-blue);
+}
+
+#budget-transaction {
+  padding: 1rem;
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 5px solid;
+  background-color: #f9f9f9;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.transaction-item.income {
+  border-color: var(--success);
+}
+
+.transaction-item.expense {
+  border-color: tomato;
+}
+
+.transaction-item .amount {
+  font-weight: bold;
+}
+
+.transaction-item .description {
+  flex: 1;
+  margin-left: 0.75rem;
+}
+
+#budget-summary {
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  text-align: center;
+}
+
+.summary-box {
+  background-color: var();
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.summary-box h3 {
+  margin-bottom: 0.5rem;
+  color: var(--subtle-text);
+  font-weight: 500;
+}
+
+.summary-box .summary-value {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.summary-income {
+  color: var(--subtle-text);
+}
+
+.summary-expense {
+  color: tomato;
+}
+
+.summary-balance {
+  color: var(--primary);
+}
+
+/* Media Query / Submit Task Widget */
 @media (max-width: 400px) {
   .task-form {
     flex-direction: column;
@@ -277,5 +406,31 @@ body {
 
   .submit-task i {
     margin-right: 0.4rem;
+  }
+}
+
+/* Media Query / Budget Tracker Widget */
+@media (max-width: 480px) {
+  #budget-form {
+    gap: 0.6rem;
+  }
+
+  .submit-budget {
+    width: 100%;
+  }
+
+  .submit-budget .btn-text {
+    display: inline;
+    margin-left: 0.4rem;
+  }
+
+  #budget-form select,
+  #budget-form input,
+  .submit-budget {
+    font-size: 0.98rem;
+    padding: 0.35rem 0.7rem;
+    height: 2.3rem;
+    min-height: unset;
+    box-sizing: border-box;
   }
 }
