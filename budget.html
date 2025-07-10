@@ -44,7 +44,7 @@
             <input
               id="budget-description"
               type="text"
-              name="description"
+              name="desc"
               placeholder="Enter a description."
               required
             />
@@ -53,7 +53,9 @@
               id="budget-amount"
               type="number"
               name="amount"
-              placeholder="0"
+              placeholder="0.00"
+              step="any"
+              min="0.01"
               required
             />
 
@@ -65,10 +67,10 @@
         </section>
 
         <!-- Budget Transaction Detals -->
-        <section class="card" ID="budget-transaction"></section>
+        <section class="card" id="budget-transaction"></section>
 
         <!-- Summary of Transactions -->
-        <section class="card" ID="budget-summary"></section>
+        <section class="card" id="budget-summary"></section>
       </main>
 
       <!-- Back To Dashboard Link -->

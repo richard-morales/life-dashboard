@@ -242,14 +242,16 @@ body {
   background: transparent;
   border: none;
   color: var(--subtle-text);
-  font-size: 1rem;
+  font-size: 1.13rem;
   cursor: pointer;
-  margin-left: 0.5rem;
-  transition: color 0.1s ease;
+  transition: color 0.12s;
+  border-radius: 4px;
+  padding: 0.25rem 0.38rem;
 }
 
 .delete-task:hover {
-  color: red;
+  color: tomato;
+  background: #fff4f0;
 }
 
 /* Budget Widget Page */
@@ -353,7 +355,7 @@ body {
 }
 
 .summary-box {
-  background-color: var();
+  background-color: var(--card-bg);
   border: 1px solid var(--border-light);
   border-radius: 10px;
   padding: 1rem;
@@ -384,7 +386,224 @@ body {
 
 #budget-transaction,
 #budget-summary {
-  display: none;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+#budget-transaction {
+  margin-bottom: 2rem;
+}
+
+#reset-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(100, 181, 246, 0.08);
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  letter-spacing: 0.01em;
+  outline: none;
+}
+
+#reset-btn:hover,
+#reset-btn:focus {
+  background: var(--hover-blue);
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(100, 181, 246, 0.11);
+}
+
+.transaction-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card-bg);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px 0 rgba(100, 181, 246, 0.05);
+  margin-bottom: 1rem;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--border-light);
+  gap: 1.2rem;
+  transition: box-shadow 0.18s;
+}
+
+.transaction-card.income {
+  border-left: 5px solid var(--success);
+}
+
+.transaction-card.expense {
+  border-left: 5px solid tomato;
+}
+
+.transaction-info {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.transaction-card .icon {
+  font-size: 1.35rem;
+  color: var(--subtle-text);
+  margin-right: 0.5rem;
+  transition: color 0.15s;
+}
+
+.transaction-card.income .icon {
+  color: var(--success);
+}
+
+.transaction-card.expense .icon {
+  color: tomato;
+}
+
+.transaction-card .description {
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.01em;
+}
+
+.transaction-card .amount {
+  font-weight: 600;
+  font-size: 1.12rem;
+  min-width: 80px;
+  text-align: right;
+}
+
+.transaction-amount-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.delete-transaction {
+  background: transparent;
+  border: none;
+  color: var(--subtle-text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: color 0.14s, background 0.14s;
+  border-radius: 4px;
+  padding: 0.22rem 0.32rem;
+}
+
+.delete-transaction:hover {
+  color: tomato;
+  background: #fff4f0;
+}
+
+.summary-flex {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-bottom: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.summary-box {
+  background: var(--card-bg);
+  border-radius: 13px;
+  box-shadow: 0 2px 8px 0 rgba(100, 181, 246, 0.06);
+  padding: 1.1rem 2.1rem 1.1rem 1.5rem;
+  min-width: 118px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1.5px solid #e2e6ea;
+  transition: border-color 0.15s;
+}
+
+.summary-box.income {
+  border-color: var(--success);
+}
+
+.summary-box.expense {
+  border-color: tomato;
+}
+
+.summary-box.balance {
+  border-color: var(--primary);
+}
+
+.summary-box .icon {
+  font-size: 1.18rem;
+  opacity: 0.68;
+  margin-bottom: 0.5rem;
+  color: var(--subtle-text);
+}
+
+.summary-box h3 {
+  font-size: 1.07rem;
+  margin: 0 0 0.2rem 0;
+  color: var(--subtle-text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.summary-value {
+  font-size: 1.27rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+.summary-box.expense .summary-value {
+  color: tomato;
+}
+
+.summary-box.income .summary-value {
+  color: var(--success);
+}
+
+.summary-box.balance .summary-value {
+  color: var(--primary);
+}
+
+.summary-box.balance .summary-value.gain {
+  color: var(--success);
+}
+
+.summary-box.balance .summary-value.loss {
+  color: tomato;
+}
+
+.summary-feedback {
+  font-size: 1.14rem;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.6rem;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+
+.summary-feedback.positive {
+  color: var(--success);
+}
+
+.summary-feedback.negative {
+  color: tomato;
+}
+
+.good-news {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.at-limit {
+  color: var(--primary);
+}
+
+.over-budget {
+  color: tomato;
+  font-weight: 600;
+}
+
+.emoji {
+  font-size: 1.08em;
+  margin-left: 0.12em;
 }
 
 /* Media Query / Submit Task Widget */
