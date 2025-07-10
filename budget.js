@@ -36,9 +36,6 @@ window.addEventListener("DOMContentLoaded", renderTransactions);
 function renderTransactions() {
   const transactions = loadTransactions();
 
-  transactionSection.style.display = "block";
-  summarySection.style.display = "block";
-
   // Render transactions
   if (transactions.length === 0) {
     transactionSection.innerHTML =
@@ -164,10 +161,13 @@ summarySection.style.display = "block";
 budgetForm.addEventListener("submit", (event) => {
   event.preventDefault(); // Stops default page refresh
 
-  // Ge user inputs
+  // Get user inputs
   const type = transactionType.value;
   const desc = budgetDescription.value.trim();
-  const amount = parseFloat(budgetAmount.value);
+  const amountInput = document.getElementById("budget-amount");
+  let amount = parseFloat(
+    amountInput.rawValue || amountInput.value.replace(/,/g, "")
+  );
 
   // Validate Input
   if (!desc || isNaN(amount) || amount <= 0) {
@@ -197,4 +197,14 @@ budgetForm.addEventListener("submit", (event) => {
   //   Clear form fields for next entry
   budgetDescription.value = "";
   budgetAmount.value = "";
+});
+
+// Initialize Cleave
+document.addEventListener("DOMContentLoaded", function () {
+  new Cleave("#budget-amount", {
+    numeral: true,
+    numeralThousandsGroupStyle: "thousand",
+    numeralDecimalMark: ".",
+    delimiter: ",",
+  });
 });
