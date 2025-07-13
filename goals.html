@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly Goals</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- App container -->
+    <div class="app-container">
+      <!-- App header -->
+      <header class="app-header">
+        <img
+          src="assets/images/widgets/weekly-goals.svg"
+          alt="Weekly Goals Illustration"
+          class="widget-illustration"
+        />
+        <h1>Weekly Goals</h1>
+        <p>Set specific goals and track your progress every week.</p>
+      </header>
+
+      <main>
+        <section class="card goals-widget">
+          <!-- Goals Form -->
+          <form id="goals-form">
+            <input
+              id="goal-description"
+              type="text"
+              name="desc"
+              placeholder="Describe your goal (e.g., Read, Walk)"
+              required
+            />
+            <div id="target-container">
+              <input
+                id="goal-target"
+                type="number"
+                name="target"
+                placeholder="0"
+              />
+
+              <select id="unit-measure" class="unit-measure">
+                <option value="times">times</option>
+                <option value="pages">pages</option>
+                <option value="miles">miles</option>
+                <option value="dollars">dollars</option>
+                <option value="repetitions">repetitions</option>
+                <option value="minutes">minutes</option>
+              </select>
+            </div>
+
+            <!-- Weekday picker -->
+            <fieldset class="weekday-picker">
+              <legend>Which days?</legend>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="mon" />
+                <span>Mon</span>
+              </label>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="tue" />
+                <span>Tue</span>
+              </label>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="wed" />
+                <span>Wed</span>
+              </label>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="thu" />
+                <span>Thu</span>
+              </label>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="fri" />
+                <span>Fri</span>
+              </label>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="sat" />
+                <span>Sat</span>
+              </label>
+
+              <label class="day">
+                <input type="checkbox" name="days" value="sun" />
+                <span>Sun</span>
+              </label>
+            </fieldset>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-goal">
+              <i class="fa-solid fa-plus"></i
+              ><span class="btn-text">Add Goal</span>
+            </button>
+          </form>
+
+          <p class="advice">
+            Always set SMART goals — Specific | Measurable | Achievable |
+            Relevant | Time-bound — for focused effort and visible progress.
+          </p>
+        </section>
+      </main>
+
+      <!-- Back To Dashboard Link -->
+      <div class="back-link-container">
+        <a href="index.html" class="back-link">Back to Dashboard</a>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>Simple tools. Real life. — Richard Morales</p>
+      </footer>
+    </div>
+
+    <script src="goals.js"></script>
+  </body>
+</html>

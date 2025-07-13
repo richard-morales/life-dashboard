@@ -606,6 +606,17 @@ body {
   margin-left: 0.12em;
 }
 
+/* Weekly Goals Widget */
+
+.goals-widget {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 /* Media Query / Submit Task Widget */
 @media (max-width: 400px) {
   .task-form {
