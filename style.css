@@ -614,33 +614,196 @@ body {
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
-/* Media Query / Submit Task Widget */
-@media (max-width: 400px) {
-  .task-form {
+/* Form Layout */
+
+#goals-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#target-container {
+  display: flex;
+  flex: 1 1 7rem;
+  gap: 0.7rem;
+  min-width: 0rem;
+}
+
+#goal-description {
+  flex: 1.5 1.5 2.5rem;
+  min-width: 2.5;
+}
+
+#goal-target {
+  flex: 1 1 2.5rem;
+  min-width: 2.5rem;
+}
+
+#unit-measure {
+  flex: 1 1 6rem;
+  min-width: 5.5rem;
+  background: #fff;
+}
+
+#goals-form input,
+#unit-measure,
+#goals-form button {
+  font-size: 1rem;
+  padding: 0.5rem 0.9rem;
+  line-height: 1.3;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+#goals-form input,
+#unit-measure {
+  margin-bottom: 0.5rem;
+}
+
+/* Weekday Picker */
+
+.weekday-picker {
+  border: none;
+  margin: 0 0 0.5rem 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  justify-content: center;
+  font-size: 1.03rem;
+  flex-wrap: wrap;
+}
+
+.weekday-picker legend {
+  font-size: 1.01rem;
+  color: var(--subtle-text);
+  margin-right: 1rem;
+}
+
+.day {
+  display: flex;
+  align-items: center;
+  gap: 0.13rem;
+}
+
+.day input[type="checkbox"] {
+  accent-color: var(--primary);
+  width: 1.23rem;
+  height: 1.25rem;
+  border-radius: 6.4rem;
+  cursor: pointer;
+  margin-right: 0.2rem;
+}
+
+.day span {
+  min-width: 2.2rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* Submit Button */
+
+.submit-goal {
+  background-color: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.3rem;
+  font-size: 1.18rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin-left: 0.9rem;
+  min-width: 2.75rem;
+  min-height: 2.5rem;
+  flex-shrink: 0;
+}
+
+.submit-goal:hover {
+  background-color: var(--hover-blue);
+}
+
+/* Advise / SMART Helper Text */
+
+.advice {
+  text-align: center;
+  color: var(--subtle-text);
+  font-size: 1rem;
+  margin: 0.6rem 0 0 0;
+  background-color: #fffbe5;
+  border-left: 4px solid var(--accent);
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* Media Query / Weekly Goals Widget */
+
+@media (max-width: 768px) {
+  /* Make the form layout vertical for mobile */
+  #goals-form {
     flex-direction: column;
+    gap: 0.7rem;
     align-items: stretch;
   }
 
-  .submit-task {
+  /* Make all inputs, selects, textarea take full width */
+  #goals-form input,
+  #unit-measure {
     width: 100%;
+    max-width: 100%;
     min-width: 0;
+    font-size: 1rem;
+    padding: 0.5rem 0.9rem;
     border-radius: 8px;
-    padding: 0.6rem 1rem;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    box-sizing: border-box;
+    max-height: 2.5rem;
   }
 
-  .btn-text {
+  /* Special styling for textarea (description field) */
+  #goal-description {
+    min-height: 2.5rem;
+    max-height: 4rem;
+    height: 2.5rem; /* controls initial height */
+    resize: vertical; /* user can expand if needed */
+    width: 100%;
+  }
+
+  #target-container {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .submit-goal {
+    width: 100%;
+    margin-left: 0;
+    font-size: 1.07rem;
+    min-height: 2.5rem;
+  }
+
+  .submit-goal .btn-text {
     display: inline;
+    margin-left: 0.4rem;
   }
 
-  .submit-task i {
-    margin-right: 0.4rem;
+  /* Make checkboxes/weekday picker wrap and center */
+  .weekday-picker {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
