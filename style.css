@@ -750,6 +750,98 @@ body {
   font-weight: 500;
 }
 
+.goal-completed {
+  background: #e6ffec;
+  border-left: 6px solid var(--success);
+}
+
+/* Progress bar */
+.progress-bar-container {
+  margin: 0.5em 0;
+}
+.progress-bar-bg {
+  background: #e0e0e0;
+  border-radius: 8px;
+  width: 100%;
+  height: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: var(--success, #81c784);
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.3s;
+}
+.progress-bar-label {
+  font-size: 0.95em;
+  color: #607d8b;
+  display: block;
+  margin-top: 0.2em;
+  text-align: right;
+}
+
+/* Disabled check boxes */
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.label-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  position: relative;
+}
+.label-disabled.shake {
+  animation: shake 0.35s;
+}
+.inline-message {
+  color: #d32f2f;
+  font-size: 0.95em;
+  margin-left: 0.7em;
+}
+.progress-bar-container {
+  margin: 0.5em 0;
+}
+.progress-bar-bg {
+  background: #e0e0e0;
+  border-radius: 8px;
+  width: 100%;
+  height: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: #81c784;
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.3s;
+}
+.progress-bar-label {
+  font-size: 0.95em;
+  color: #607d8b;
+  display: block;
+  margin-top: 0.2em;
+  text-align: right;
+}
+.goal-completed {
+  background: #e6ffec;
+  border-left: 6px solid #81c784;
+}
+
 /* Media Query / Weekly Goals Widget */
 
 @media (max-width: 768px) {
