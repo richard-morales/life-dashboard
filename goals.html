@@ -33,8 +33,18 @@
       </header>
 
       <main>
-        <section class="card goals-widget">
-          <!-- Goals Form -->
+        <!-- SMART Goals Info Card -->
+        <section class="info-card">
+          <h2>Why SMART Goals?</h2>
+          <p>
+            Only SMART goals—
+            <strong>Specific, Measurable, Achievable, Relevant</strong>, and
+            <strong>Time-bound</strong>—turn intentions into real results.
+          </p>
+        </section>
+
+        <!-- Form Card (only the form) -->
+        <section class="card goals-form-card">
           <form id="goals-form">
             <input
               id="goal-description"
@@ -50,17 +60,13 @@
                 name="target"
                 placeholder="0"
               />
-
               <select id="unit-measure">
-                <option value="times">times</option>
-                <option value="pages">pages</option>
-                <option value="miles">miles</option>
-                <option value="dollars">dollars</option>
-                <option value="repetitions">repetitions</option>
-                <option value="minutes">minutes</option>
-                <option value="custom">custom</option>
+                <option value="times">Time(s)</option>
+                <option value="minutes">Minute(s)</option>
+                <option value="hours">Hour(s)</option>
+                <option value="pages">Page(s)</option>
+                <option value="custom">Custom</option>
               </select>
-
               <input
                 type="text"
                 id="custom-unit"
@@ -73,55 +79,58 @@
             <!-- Weekday picker -->
             <fieldset class="weekday-picker">
               <legend>Which days?</legend>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="mon" />
-                <span>Mon</span>
-              </label>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="tue" />
-                <span>Tue</span>
-              </label>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="wed" />
-                <span>Wed</span>
-              </label>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="thu" />
-                <span>Thu</span>
-              </label>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="fri" />
-                <span>Fri</span>
-              </label>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="sat" />
-                <span>Sat</span>
-              </label>
-
-              <label class="day">
-                <input type="checkbox" name="days" value="sun" />
-                <span>Sun</span>
-              </label>
+              <label class="day"
+                ><input type="checkbox" name="days" value="mon" /><span
+                  >Mon</span
+                ></label
+              >
+              <label class="day"
+                ><input type="checkbox" name="days" value="tue" /><span
+                  >Tue</span
+                ></label
+              >
+              <label class="day"
+                ><input type="checkbox" name="days" value="wed" /><span
+                  >Wed</span
+                ></label
+              >
+              <label class="day"
+                ><input type="checkbox" name="days" value="thu" /><span
+                  >Thu</span
+                ></label
+              >
+              <label class="day"
+                ><input type="checkbox" name="days" value="fri" /><span
+                  >Fri</span
+                ></label
+              >
+              <label class="day"
+                ><input type="checkbox" name="days" value="sat" /><span
+                  >Sat</span
+                ></label
+              >
+              <label class="day"
+                ><input type="checkbox" name="days" value="sun" /><span
+                  >Sun</span
+                ></label
+              >
             </fieldset>
 
             <!-- Submit Button -->
             <button type="submit" class="submit-goal">
-              <i class="fa-solid fa-plus"></i
-              ><span class="btn-text">Add Goal</span>
+              <i class="fa-solid fa-plus"></i>
+              <span class="btn-text">Add Goal</span>
             </button>
           </form>
+        </section>
 
-          <p class="advice">
-            Always set SMART goals — Specific | Measurable | Achievable |
-            Relevant | Time-bound.
-          </p>
-
+        <!-- Goals List Card (hidden when empty) -->
+        <section
+          class="card goals-list-card"
+          id="goals-section"
+          style="display: none"
+        >
+          <h2 class="goals-list-title">Your Weekly Goals</h2>
           <ul id="goals-list"></ul>
         </section>
       </main>
@@ -134,6 +143,17 @@
       <!-- Footer -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
+        <nav class="footer-links">
+          <a href="https://richard-morales.github.io/#about" target="_blank"
+            >About</a
+          >
+          <a href="https://richard-morales.github.io/#contact" target="_blank"
+            >Contact</a
+          >
+          <a href="https://github.com/richard-morales" target="_blank"
+            >GitHub</a
+          >
+        </nav>
       </footer>
     </div>
 

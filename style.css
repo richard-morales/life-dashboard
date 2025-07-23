@@ -608,15 +608,6 @@ body {
 
 /* Weekly Goals Widget */
 
-.goals-widget {
-  max-width: 40rem;
-  margin: 2rem auto;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
 /* Form Layout */
 
 #goals-form {
@@ -630,13 +621,16 @@ body {
 #target-container {
   display: flex;
   flex: 1 1 7rem;
-  gap: 0.7rem;
-  min-width: 0rem;
+  min-width: 0;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
 }
 
 #goal-description {
   flex: 1.5 1.5 2.5rem;
-  min-width: 2.5;
+  height: 2.5rem;
+  width: 100%;
 }
 
 #goal-target {
@@ -695,11 +689,17 @@ body {
 
 .day input[type="checkbox"] {
   accent-color: var(--primary);
-  width: 1.23rem;
-  height: 1.25rem;
+  width: 1.6rem;
+  height: 1.6rem;
   border-radius: 6.4rem;
   cursor: pointer;
-  margin-right: 0.2rem;
+  margin-right: 0.35rem;
+  box-shadow: 0 1px 3px rgba(52, 152, 219, 0.09);
+  transition: box-shadow 0.18s;
+}
+
+.day input[type="checkbox"]:focus {
+  box-shadow: 0 0 0 2px var(--hover-blue);
 }
 
 .day span {
@@ -726,10 +726,6 @@ body {
   justify-content: center;
   gap: 0.5rem;
   font-weight: 500;
-  margin-left: 0.9rem;
-  min-width: 2.75rem;
-  min-height: 2.5rem;
-  flex-shrink: 0;
 }
 
 .submit-goal:hover {
@@ -842,6 +838,64 @@ body {
   border-left: 6px solid #81c784;
 }
 
+.info-card {
+  background: #fff;
+  border-left: 5px solid var(--accent);
+  color: #666d77;
+  text-align: center;
+  padding: 1.2rem 2.5rem;
+  max-width: 40rem;
+  margin: 2rem auto;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.goals-form-card,
+.goals-list-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(100, 181, 246, 0.1);
+  max-width: 40rem;
+  margin: 2rem auto 0;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.goals-form-card {
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.goals-list-card {
+  margin-top: 0;
+  margin-bottom: 2.2rem;
+}
+
+.goals-list-title {
+  color: var(--primary, #64b5f6);
+  font-size: 1.3rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+#goals-form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0.7rem;
+}
+
+#goals-form > * {
+  margin-bottom: 0.6rem;
+}
+
 /* Media Query / Weekly Goals Widget */
 
 @media (max-width: 768px) {
@@ -852,51 +906,85 @@ body {
     align-items: stretch;
   }
 
-  /* Make all inputs, selects, textarea take full width */
-  #goals-form input,
-  #unit-measure {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    font-size: 1rem;
-    padding: 0.5rem 0.9rem;
-    border-radius: 8px;
-    box-sizing: border-box;
-    max-height: 2.5rem;
+  .info-card,
+  .goals-form-card,
+  .goals-list-card {
+    padding: 1rem 0.6rem;
+    max-width: 98vw;
   }
+}
 
-  /* Special styling for textarea (description field) */
-  #goal-description {
-    min-height: 2.5rem;
-    max-height: 4rem;
-    height: 2.5rem; /* controls initial height */
-    resize: vertical; /* user can expand if needed */
-    width: 100%;
-  }
+/* Make all inputs, selects, textarea take full width */
+#goals-form input,
+#unit-measure {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  font-size: 1rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-height: 2.5rem;
+}
 
-  #target-container {
-    flex-direction: column;
-    width: 100%;
-    gap: 0.5rem;
-  }
+.submit-goal {
+  width: 100%;
+  margin-left: 0;
+  margin-top: 0.7rem;
+}
 
-  .submit-goal {
-    width: 100%;
-    margin-left: 0;
-    font-size: 1.07rem;
-    min-height: 2.5rem;
-  }
+.submit-goal .btn-text {
+  display: inline;
+  margin-left: 0.4rem;
+}
 
-  .submit-goal .btn-text {
-    display: inline;
-    margin-left: 0.4rem;
-  }
+/* Make checkboxes/weekday picker wrap and center */
+.weekday-picker {
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-  /* Make checkboxes/weekday picker wrap and center */
-  .weekday-picker {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+.delete-goal {
+  background: transparent;
+  border: none;
+  color: var(--subtle-text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: color 0.14s, background 0.14s;
+  border-radius: 4px;
+  padding: 0.22rem 0.32rem;
+}
+
+.delete-goal:hover {
+  color: tomato;
+  background: #fff4f0;
+}
+
+.goal-item {
+  list-style: none;
+  margin-bottom: 1.3rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.goal-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.3rem;
+  line-height: 1.8;
+}
+
+.goal-content > div:first-child {
+  flex: 1 1 auto;
+}
+
+#progress-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 /* Media Query / Budget Tracker Widget */

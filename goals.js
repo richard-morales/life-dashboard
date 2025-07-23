@@ -13,8 +13,9 @@ function getYearWeek(date = new Date()) {
   );
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-  return `${d.getUTCFullYear()}-${weekNo}`;
+  // 86,400,000 ms = 1 day. Adding 1 includes the first day of the first week, shifting from zero-based to one-based counting.
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7); // Division and addition have the same precedence level, so this operation is evaluated from left to right (+ 1 occurs after the division).
+  return `${d.getUTCFullYear()}-${weekNo}`; //  Result will be the week number of the current week, so we know which week we are currently in. right now.
 }
 
 // --- DOM References ---
@@ -42,6 +43,7 @@ const currentYearWeek = getYearWeek();
 const lastReset = localStorage.getItem("goalsLastReset");
 
 let goals = loadGoals();
+if (!Array.isArray(goals)) goals = [];
 
 if (lastReset !== currentYearWeek) {
   goals.forEach((goal) => {
@@ -51,85 +53,79 @@ if (lastReset !== currentYearWeek) {
   localStorage.setItem("goalsLastReset", currentYearWeek);
 }
 
+// --- Helper: Get today's weekday in short ---
+function getTodayShort() {
+  const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  return days[new Date().getDay()];
+}
+
 // --- Render Goals List ---
 function renderGoals() {
-  goalsList.innerHTML = "";
-  const WEEKDAYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-  const todayStr = WEEKDAYS[new Date().getDay()];
+  const goalsList = document.getElementById("goals-list");
+  const goalsSection = document.getElementById("goals-section");
+
+  // Show or hide the goals card
+  if (goals.length === 0) {
+    goalsSection.style.display = "none";
+    return;
+  } else {
+    goalsSection.style.display = "block";
+  }
+
+  goalsList.innerHTML = ""; // Clear previous list
 
   goals.forEach((goal, idx) => {
-    // Progress checkboxes (only today enabled)
-    const progressRow = goal.days
-      .map((day) => {
-        const checked = goal.progress && goal.progress[day] ? "checked" : "";
-        const label = day.charAt(0).toUpperCase() + day.slice(1);
-        const isToday = day === todayStr;
-        const disabled = isToday ? "" : "disabled";
-        const tooltip = isToday
-          ? ""
-          : 'title="You can only mark your goal for today"';
-        const labelClass = isToday ? "" : "label-disabled";
-        return `
-        <label class="${labelClass}" style="margin-right:8px;" data-goal="${idx}" data-day="${day}">
-          <input type="checkbox" class="progress-checkbox" data-goal="${idx}" data-day="${day}" ${checked} ${disabled} ${tooltip}>
-          ${label}
+    // Build checkboxes for each selected day
+    let checkboxes = "";
+    goal.days.forEach((day) => {
+      const checked = goal.progress && goal.progress[day] ? "checked" : "";
+      const isToday = getTodayShort() === day;
+      const disabled = isToday ? "" : "disabled";
+      checkboxes += `
+        <label class="${disabled ? "label-disabled" : ""}">
+          <input type="checkbox" class="progress-checkbox" data-day="${day}" data-goal="${idx}" ${checked} ${disabled}>
+          ${day.charAt(0).toUpperCase() + day.slice(1)}
         </label>
       `;
-      })
-      .join("");
+    });
 
-    // Daily motivational feedback
-    const isTodayGoal = goal.days.includes(todayStr);
-    const todayChecked = goal.progress && goal.progress[todayStr];
-    const dailyFeedback =
-      isTodayGoal && todayChecked
-        ? `<span class="daily-feedback" style="color: #39924c; margin-left: 0.5em;">Great job! You completed today!</span>`
-        : "";
+    // Calculate progress
+    const total = goal.days.length;
+    const completed = goal.progress
+      ? Object.values(goal.progress).filter(Boolean).length
+      : 0;
+    const percent = total ? Math.round((completed / total) * 100) : 0;
 
-    // Progress bar calculatio
-    const completedCount = goal.days.filter(
-      (day) => goal.progress && goal.progress[day]
-    ).length;
-    const percent =
-      goal.days.length > 0
-        ? Math.round((completedCount / goal.days.length) * 100)
-        : 0;
-    const progressBarHTML = `
-      <div class="progress-bar-container" style="margin: 0.5em 0;">
-        <div class="progress-bar-bg" style="background:#e0e0e0; border-radius:8px; width:100%; height:16px;">
-          <div class="progress-bar-fill" style="
-            background: #81c784; 
-            width: ${percent}%; 
-            height: 100%; 
-            border-radius:8px;
-            transition: width 0.3s;
-          "></div>
+    // Progress bar HTML
+    const progressBar = `
+      <div class="progress-bar-container">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width: ${percent}%"></div>
         </div>
-        <span class="progress-bar-label" style="font-size:0.95em; color:#607d8b;">${completedCount} of ${goal.days.length} days (${percent}%)</span>
+        <div class="progress-bar-label">${completed} of ${total} days (${percent}%)</div>
       </div>
     `;
 
-    // Weekly completion feedback
-    const isGoalComplete =
-      goal.days.length > 0 &&
-      goal.days.every((day) => goal.progress && goal.progress[day]);
-    const goalHighlight = isGoalComplete ? "goal-completed" : "";
-    const completionMsg = isGoalComplete
-      ? `<div class="weekly-feedback" style="color: #39924c; font-weight: bold; margin-top: 0.3em;">🏆 Goal achieved for this week!</div>`
-      : "";
+    // Feedback message
+    const feedback =
+      goal.progress && goal.progress[getTodayShort()]
+        ? `<span class="good-news">Great job! You completed today!</span>`
+        : "";
 
-    // Render goal item
+    // Build the goal item HTML
     const li = document.createElement("li");
-    li.className = "goal-item " + goalHighlight;
+    li.className = "goal-item";
     li.innerHTML = `
-      <strong>${goal.description}</strong>
-      <span>Target: ${goal.target} ${goal.unit}</span>
-      <div>Progress: ${progressRow} ${dailyFeedback}</div>
-      ${progressBarHTML}
-      ${completionMsg}
-      <button class="delete-goal" data-index="${idx}" aria-label="Delete goal" style="margin-top:0.5em;">
-        <i class="fa fa-trash"></i>
-      </button>
+      <div class="goal-content">
+        <div>
+            <strong>${goal.description}</strong> <br> Target: ${goal.target} ${goal.unit}
+          <div>Progress:<span id="progress-checkboxes"> ${checkboxes} </span> <br> ${feedback}</div>
+          ${progressBar}
+        </div>
+        <button class="delete-goal" data-index="${idx}" aria-label="Delete goal">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
     `;
     goalsList.appendChild(li);
   });
