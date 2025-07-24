@@ -987,6 +987,97 @@ body {
   align-items: center;
 }
 
+/* Habit Tracker Widget CSS Code */
+
+/* Hide Elements from Viewport / Still Available for Screen Readers */
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
+.habits-widget {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#habits-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#habit-description,
+#habit-date {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+#habit-description {
+  flex: 2 10rem;
+}
+
+#habit-date {
+  flex: 0.5 10rem;
+  color: var(--text);
+}
+
+.submit-habit {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-habit:hover {
+  background-color: var(--hover-blue);
+}
+
+/* Media Query / Habits Tracker */
+
+@media (max-width: 768px) {
+  /* Make the form layout vertical for mobile */
+  #habits-form {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+
+  .submit-habit {
+    width: 100%;
+  }
+
+  .submit-habit .btn-text {
+    display: inline;
+    margin-left: 0.4rem;
+  }
+
+  #habit-description,
+  #habit-date {
+    max-height: 2.5rem;
+  }
+}
+
 /* Media Query / Budget Tracker Widget */
 @media (max-width: 480px) {
   #budget-form {

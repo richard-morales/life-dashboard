@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habit Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- App Container -->
+    <div class="app-container">
+      <!-- App header -->
+      <header class="app-header">
+        <img
+          src="assets/images/widgets/habit-tracker.svg"
+          alt="Habits Tracker Illustration"
+          class="widget-illustration"
+        />
+        <h1>Habit Tracker</h1>
+        <p>Honor your growth. Time beautifully lived.</p>
+      </header>
+
+      <!-- Widget Tools -->
+      <main>
+        <!-- Card that explains the purpose of tracking progress -->
+        <section class="info-card">
+          <h2>Why it matters</h2>
+          <p>
+            Track the time you’ve stayed committed. Whether it's journaling,
+            exercising, living smoke-free, staying sober, etc. Your effort
+            matters.
+          </p>
+        </section>
+
+         <section class="card habits-widget">
+          <form id="habits-form">
+            <label for="habit-description" class="visually-hidden">Habit Description</label>
+            <input
+              id="habit-description"
+              type="text"
+              name="desc"
+              placeholder="Enter a habit (e.g. Alcohol-free, Journaling)"
+              required
+            />
+
+            <label for="habit-date" class="visually-hidden">Start Date</label>
+             <input
+              id="habit-date"
+              type="date"
+              name="date"
+              placeholder="Select a start date"
+              required
+            />
+
+               <button type="submit" class="submit-habit">
+              <i class="fa-solid fa-plus"></i>
+              <span class="btn-text">Add Habit</span>
+            </button>
+          </form>
+          
+                  <!-- Goals List Card (hidden when empty) -->
+        <section
+          class="card habits-clocks"
+          id="habits-clocks-section"
+          style="display: none"
+        >
+          <h2 class="habits-clocks-title">Your Habit Clocks</h2>
+          <ul id="habits-gallery"></ul>
+        </section>
+      </main>
+     
+           <!-- Back To Dashboard Link -->
+      <div class="back-link-container">
+        <a href="index.html" class="back-link">Back to Dashboard</a>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>Simple tools. Real life. — Richard Morales</p>
+        <nav class="footer-links">
+          <a href="https://richard-morales.github.io/#about" target="_blank"
+            >About</a
+          >
+          <a href="https://richard-morales.github.io/#contact" target="_blank"
+            >Contact</a
+          >
+          <a href="https://github.com/richard-morales" target="_blank"
+            >GitHub</a
+          >
+        </nav>
+      </footer>
+    </div>
+
+     <script src="habits.js"></script>
+  </body>
+</html>
