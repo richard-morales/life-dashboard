@@ -45,9 +45,11 @@
           </p>
         </section>
 
-         <section class="card habits-widget">
+        <section class="card habits-widget">
           <form id="habits-form">
-            <label for="habit-description" class="visually-hidden">Habit Description</label>
+            <label for="habit-description" class="visually-hidden"
+              >Habit Description</label
+            >
             <input
               id="habit-description"
               type="text"
@@ -57,7 +59,7 @@
             />
 
             <label for="habit-date" class="visually-hidden">Start Date</label>
-             <input
+            <input
               id="habit-date"
               type="date"
               name="date"
@@ -65,24 +67,31 @@
               required
             />
 
-               <button type="submit" class="submit-habit">
+            <button type="submit" class="submit-habit">
               <i class="fa-solid fa-plus"></i>
               <span class="btn-text">Add Habit</span>
             </button>
           </form>
-          
-                  <!-- Goals List Card (hidden when empty) -->
-        <section
-          class="card habits-clocks"
-          id="habits-clocks-section"
-          style="display: none"
-        >
-          <h2 class="habits-clocks-title">Your Habit Clocks</h2>
-          <ul id="habits-gallery"></ul>
+        </section>
+        <!-- Habits List Card (hidden when empty) -->
+        <section class="card" id="habits-clocks-section" style="display: none">
+          <h2>Your Habit Clocks</h2>
+          <ul id="habits-gallery">
+            <li class="habit-clock">
+              <img
+                src="assets/images/widgets/frames/ornate-habit-tracker-frame.svg"
+                alt="Clock Frame"
+                class="clock-frame"
+              />
+              <div class="habit-days">12</div>
+              <div class="habit-label">Days of: <em>No Sugar</em></div>
+              <div class="habit-duration" aria-hidden="true"></div>
+            </li>
+          </ul>
         </section>
       </main>
-     
-           <!-- Back To Dashboard Link -->
+
+      <!-- Back To Dashboard Link -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
@@ -104,6 +113,6 @@
       </footer>
     </div>
 
-     <script src="habits.js"></script>
+    <script src="habits.js"></script>
   </body>
 </html>

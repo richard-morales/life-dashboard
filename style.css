@@ -1053,6 +1053,130 @@ body {
   background-color: var(--hover-blue);
 }
 
+/* Habit Clocks */
+.habit-clock {
+  position: relative;
+  width: 9.38rem;
+  height: 9.38rem;
+  list-style: none;
+  margin: 2rem;
+  text-align: center;
+}
+
+#habits-clocks-section {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+#habits-clocks-section h2 {
+  text-align: center;
+}
+
+#habits-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.38rem, 1fr));
+  place-items: center;
+}
+
+.habit-clock::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7.4rem;
+  height: 7.4rem;
+  background: radial-gradient(circle, #ffe0828c 60%, transparent 100%);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  filter: brightness(1.15);
+  opacity: 0.9;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #ffe08266, inset 0 0 5px #fff3;
+}
+
+.habit-clock::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7.3rem;
+  height: 7.3rem;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 255, 255, 0.4) 0%,
+      transparent 60%
+    ),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%),
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.1) 40%,
+      rgba(255, 255, 255, 0.3) 60%,
+      transparent 80%
+    );
+
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.clock-frame {
+  width: 100%;
+  height: auto;
+  display: block;
+  z-index: 1;
+  transition: transform 0.3s ease;
+  animation: spinForever 60s linear infinite;
+}
+
+@keyframes spinForever {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.habit-clock:hover .clock-frame {
+  transform: scale(1.05);
+}
+
+.habit-days {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary);
+  text-shadow: 0px 0px 6px rgba(40, 144, 255, 0.746);
+  padding: 1rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(2px);
+}
+
+.habit-label {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--subtle-text);
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+.habit-duration {
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--subtle-text);
+  font-style: italic;
+}
+
 /* Media Query / Habits Tracker */
 
 @media (max-width: 768px) {
