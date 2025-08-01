@@ -1025,11 +1025,11 @@ body {
 }
 
 #habit-description {
-  flex: 2 10rem;
+  flex: 2 1.5rem;
 }
 
 #habit-date {
-  flex: 0.5 10rem;
+  flex: 1 1.5rem;
   color: var(--text);
 }
 
@@ -1078,6 +1078,7 @@ body {
 
 #habits-clocks-section h2 {
   text-align: center;
+  color: var(--primary);
 }
 
 #habits-gallery {
@@ -1100,12 +1101,9 @@ body {
 .clock-container::before {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
   width: 9.4rem;
   height: 9.4rem;
   background: radial-gradient(circle, #ffe0828c 60%, transparent 100%);
-  transform: translate(-50%, -50%);
   z-index: 0;
   filter: brightness(1.15);
   opacity: 0.9;
@@ -1116,12 +1114,9 @@ body {
 .clock-container::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
   margin: 0 auto;
   width: 9.3rem;
   height: 9.3rem;
-  transform: translate(-50%, -50%);
   border-radius: 50%;
   z-index: 2;
   pointer-events: none;
@@ -1147,7 +1142,6 @@ body {
   position: absolute;
   width: 100%;
   z-index: 1;
-  transition: transform 0.3s ease;
   animation: spinForever 60s linear infinite;
 }
 
@@ -1162,10 +1156,6 @@ body {
 }
 
 .habit-days {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-size: 2.4rem;
   font-weight: bold;
   color: var(--primary);
