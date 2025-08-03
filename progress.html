@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <!-- App header -->
+      <header class="app-header">
+        <img
+          src="assets/images/widgets/progress.svg"
+          alt="Progress Tracker Illustration"
+          class="widget-illustration"
+        />
+        <h1>Progress Tracker</h1>
+        <p>Track your progress and see your results grow over time.</p>
+      </header>
+
+      <!-- Widget Tools -->
+      <main>
+        <section class="card progress-widget">
+          <form id="progress-form">
+            <label for="item-description" class="visually-hidden"
+              >Item Description</label
+            >
+            <input
+              id="item-description"
+              type="text"
+              name="desc"
+              placeholder="Track progress on ..."
+              required
+            />
+
+            <label for="unit-measure" class="visually-hidden"
+              >Unit Measure</label
+            >
+            <select id="unit-measure">
+              <option value="reps">Repetition(s)</option>
+              <option value="minutes">Minute(s)</option>
+              <option value="kg">Kg</option>
+              <option value="lbs">Lbs</option>
+              <option value="km">Km</option>
+              <option value="custom">Custom unit</option>
+            </select>
+
+            <label for="custom-unit" class="visually-hidden">Custom Unit</label>
+            <input
+              type="text"
+              id="custom-unit"
+              name="custom-unit"
+              placeholder="Enter your unit"
+              style="display: none; margin-top: 0.5rem"
+            />
+
+            <button type="submit" class="submit-item">
+              <i class="fa-solid fa-plus"></i>
+              <span class="btn-text">Add Item</span>
+            </button>
+          </form>
+        </section>
+
+        <!-- Progess Item Card (hidden when empty) -->
+        <section
+          class="card"
+          id="progress-item-section"
+          style="display: none"
+        ></section>
+      </main>
+
+      <!-- Back To Dashboard Link -->
+      <div class="back-link-container">
+        <a href="index.html" class="back-link">Back to Dashboard</a>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>Simple tools. Real life. — Richard Morales</p>
+        <nav class="footer-links">
+          <a href="https://richard-morales.github.io/#about" target="_blank"
+            >About</a
+          >
+          <a href="https://richard-morales.github.io/#contact" target="_blank"
+            >Contact</a
+          >
+          <a href="https://github.com/richard-morales" target="_blank"
+            >GitHub</a
+          >
+        </nav>
+      </footer>
+    </div>
+    <script src="progress.js"></script>
+  </body>
+</html>
