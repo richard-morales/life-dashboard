@@ -1210,6 +1210,90 @@ body {
   background: #fff4f0;
 }
 
+/* CSS Code for progress.html */
+
+.progress-widget {
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+#progress-form {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#item-description {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  min-width: 2.5rem;
+  box-sizing: border-box;
+  flex: 2 1 auto;
+}
+
+#unit-measure-progress {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border-light);
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  min-width: 2.5rem;
+  box-sizing: border-box;
+  flex: 1 2 auto;
+}
+
+.submit-item {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-item:hover {
+  background-color: var(--hover-blue);
+}
+
+/* Media Query / Progress Tracker */
+
+@media (max-width: 768px) {
+  /* Make the form layout vertical for mobile */
+  #progress-form {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+
+  .submit-item {
+    width: 100%;
+  }
+
+  .submit-item .btn-text {
+    display: inline;
+    margin-left: 0.4rem;
+  }
+
+  #item-description {
+    max-height: 2.5rem;
+  }
+}
+
 /* Media Query / Habits Tracker */
 
 @media (max-width: 768px) {
