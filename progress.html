@@ -47,7 +47,7 @@
               required
             />
 
-            <label for="unit-measure" class="visually-hidden"
+            <label for="unit-measure-progress" class="visually-hidden"
               >Unit Measure</label
             >
             <select id="unit-measure-progress">
@@ -59,28 +59,26 @@
               <option value="custom">Custom unit</option>
             </select>
 
-            <label for="custom-unit" class="visually-hidden">Custom Unit</label>
-            <input
-              type="text"
-              id="custom-unit"
-              name="custom-unit"
-              placeholder="Enter your unit"
-              style="display: none; margin-top: 0.5rem"
-            />
-
             <button type="submit" class="submit-item">
               <i class="fa-solid fa-plus"></i>
               <span class="btn-text">Add Item</span>
             </button>
           </form>
+
+          <label for="custom-unit-progress" class="visually-hidden"
+            >Custom Unit</label
+          >
+          <input
+            type="text"
+            id="custom-unit-progress"
+            name="custom-unit-progress"
+            placeholder="Set your custom unit"
+            style="display: none; margin-top: 0.5rem"
+          />
         </section>
 
-        <!-- Progess Item Card (hidden when empty) -->
-        <section
-          class="card"
-          id="progress-item-section"
-          style="display: none"
-        ></section>
+        <!-- All progress tracker cards will be rendered here -->
+        <div id="progress-trackers-container"></div>
       </main>
 
       <!-- Back To Dashboard Link -->
@@ -105,5 +103,7 @@
       </footer>
     </div>
     <script src="progress.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   </body>
 </html>
