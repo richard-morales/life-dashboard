@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Notes</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="app-container">
+      <!-- App header -->
+      <header class="app-header">
+        <img
+          src="assets/images/widgets/notes.svg"
+          alt="Quick Notes Illustration"
+          class="widget-illustration"
+        />
+        <h1>Quick Notes</h1>
+        <p>Capture ideas, lists, and reflections in one simple space.</p>
+      </header>
+
+      <!-- Widget Tools -->
+      <main>
+        <section class="card notes-widget">
+          <form id="notes-form">
+            <label for="note-title" class="visually-hidden">Note Title</label>
+            <input
+              id="note-title"
+              type="text"
+              name="note-title"
+              placeholder="Give a title to your note"
+              required
+            />
+
+            <label for="note-type" class="visually-hidden">Note type</label>
+            <select id="note-type" name="note-type" required>
+              <option value="" selected disabled>Select a type of note</option>
+              <option value="checklist">Checklist</option>
+              <option value="plain">Plain Text</option>
+              <option value="quote">Quote</option>
+              <option value="list">List</option>
+              <option value="idea">Idea</option>
+              <option value="contact">Contact Info</option>
+            </select>
+
+            <button type="submit" class="new-note">
+              <i class="fa-solid fa-pen"></i>
+              <span class="btn-text">New Note</span>
+            </button>
+          </form>
+        </section>
+      </main>
+
+      <!-- Back To Dashboard Link -->
+      <div class="back-link-container">
+        <a href="index.html" class="back-link">Back to Dashboard</a>
+      </div>
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <p>Simple tools. Real life. — Richard Morales</p>
+        <nav class="footer-links">
+          <a href="https://richard-morales.github.io/#about" target="_blank"
+            >About</a
+          >
+          <a href="https://richard-morales.github.io/#contact" target="_blank"
+            >Contact</a
+          >
+          <a href="https://github.com/richard-morales" target="_blank"
+            >GitHub</a
+          >
+        </nav>
+      </footer>
+    </div>
+    <script src="notes.js"></script>
+  </body>
+</html>
