@@ -17,6 +17,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italiana&family=Great+Vibes&family=Dancing+Script:wght@500;700&family=Lobster&family=Pacifico&family=Merriweather:wght@400;700&family=Lora:wght@400;700&family=Poppins:wght@400;600&family=Raleway:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Special+Elite&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italiana&family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
@@ -45,23 +53,14 @@
               required
             />
 
-            <label for="note-type" class="visually-hidden">Note type</label>
-            <select id="note-type" name="note-type" required>
-              <option value="" selected disabled>Select a type of note</option>
-              <option value="checklist">Checklist</option>
-              <option value="plain">Plain Text</option>
-              <option value="quote">Quote</option>
-              <option value="list">List</option>
-              <option value="idea">Idea</option>
-              <option value="contact">Contact Info</option>
-            </select>
-
             <button type="submit" class="new-note">
               <i class="fa-solid fa-pen"></i>
               <span class="btn-text">New Note</span>
             </button>
           </form>
         </section>
+
+        <section id="notes-container" class="notes-stack"></section>
       </main>
 
       <!-- Back To Dashboard Link -->
@@ -85,6 +84,10 @@
         </nav>
       </footer>
     </div>
+    <!-- Export helpers -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+
     <script src="notes.js"></script>
   </body>
 </html>

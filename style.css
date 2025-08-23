@@ -1476,22 +1476,21 @@ body {
   background: #f6fafd;
 }
 
-/* CSS code for Quick Notes Widget */
+/* =========================
+   Quick Notes – Editor UI
+   ========================= */
 
+/* New note form */
 .notes-widget {
   max-width: 40rem;
   margin: 2rem auto;
   padding: 2rem;
 }
-
 #notes-form {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
 }
-
-#notes-form select,
 #notes-form input,
 .new-note {
   font-size: 1rem;
@@ -1500,49 +1499,539 @@ body {
   border: 1px solid var(--border-light);
   border-radius: 8px;
   font-family: inherit;
-  box-sizing: border-box;
 }
-
-#notes-form select,
 #notes-form input {
-  flex: 1 1 10rem;
+  flex: 1 1 18rem;
   min-width: 0;
 }
-
-#notes-form select {
-  background-color: white;
-  cursor: pointer;
-}
-
 .new-note {
-  background-color: var(--primary);
-  color: white;
+  background: var(--primary);
+  color: #fff;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.18s;
+}
+.new-note:hover {
+  background: var(--hover-blue);
+}
+
+/* Notes stack (cards list) */
+.notes-stack {
+  max-width: 40rem;
+  margin: 1.25rem auto 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* Card */
+.note-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.note-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.6rem;
+}
+.note-title {
+  font-weight: 700;
+  font-size: 1.06rem;
+  margin: 0;
+  flex: 1;
+}
+.note-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.note-btn {
+  background: transparent;
+  border: none;
+  color: var(--subtle-text);
+  font-size: 1.13rem;
+  cursor: pointer;
+  transition: color 0.12s;
+  border-radius: 4px;
+  padding: 0.25rem 0.38rem;
+}
+
+.delete:hover {
+  color: tomato;
+  background: #fff4f0;
+}
+
+.export-pdf:hover {
+  color: var(--success);
+  background: #fff4f0;
+}
+
+.export-png:hover {
+  color: var(--success);
+  background: #fff4f0;
+}
+
+/* Toolbar */
+.note-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  align-items: center;
+}
+.tb-group {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+.tb-sep {
+  width: 1px;
+  height: 24px;
+  background: #e7edf6;
+  margin: 0 0.25rem;
+}
+.tb-btn {
+  border: 1px solid var(--border-light);
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.38rem 0.5rem;
+  cursor: pointer;
+}
+.tb-btn:hover {
+  background: #f9fbff;
+}
+.tb-btn[aria-pressed="true"] {
+  background: #eef4ff;
+  border-color: #cfe1ff;
+}
+.tb-btn .fa-solid {
+  width: 1rem;
+  text-align: center;
+}
+.note-toolbar select,
+.note-toolbar input[type="color"] {
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 0.38rem 0.6rem;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+.size-select {
+  min-width: 4.5rem;
+}
+
+/* Color palette */
+.palette {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+.palette .group-label {
+  font-size: 0.78rem;
+  color: var(--subtle-text);
+  margin-right: 0.3rem;
+}
+.palette .swatch {
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  cursor: pointer;
+  display: inline-block;
+}
+.palette .swatch.is-white {
+  box-shadow: inset 0 0 0 1px #bbb;
+}
+
+/* Editor area */
+.note-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 28rem; /* height lives on the container */
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  background: #fff;
+  overflow: visible; /* rotated content stays visible */
+}
+
+/* Vertical alignment along the block axis */
+.note-body.va-top {
+  align-content: start;
+}
+.note-body.va-middle {
+  align-content: center;
+}
+.note-body.va-bottom {
+  align-content: end;
+}
+
+/* When rotated, allow scrolling if needed */
+.note-body.orient-rotated {
+  overflow: auto;
+}
+
+.rich-text {
+  min-height: unset;
+  width: 100%;
+  padding: 1rem 1.1rem;
+  line-height: 1.68;
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.orient-horizontal .rich-text {
+  writing-mode: horizontal-tb;
+  transform: none;
+}
+.orient-vertical .rich-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* rotate then translate back into view */
+.orient-rotated .rich-text {
+  writing-mode: horizontal-tb;
+  display: inline-block;
+  transform-origin: top left;
+  transform: rotate(-90deg) translateX(-100%);
+}
+
+/* Let the container scroll if rotated content overflows */
+.note-body.orient-rotated {
+  overflow: auto;
+}
+
+/* Stylish bullets */
+.rt-bullets-star ul {
+  list-style: "★  ";
+}
+.rt-bullets-diam ul {
+  list-style: "◆  ";
+}
+.rt-bullets-leaf ul {
+  list-style: "❧  ";
+}
+.rt-bullets-arrow ul {
+  list-style: "➤  ";
+}
+.rt-bullets-dash ul {
+  list-style: "–  ";
+}
+.rich-text ol,
+.rich-text ul {
+  padding-left: 1.25rem;
+}
+
+/* Quote preset look (when used) */
+.rt-quote .rich-text blockquote {
+  border-left: 4px solid var(--primary);
+  padding: 0.5rem 0.9rem;
+  margin: 0.2rem 0;
+  font-style: italic;
+  color: var(--subtle-text);
+  background: rgba(100, 181, 246, 0.06);
+  border-radius: 8px;
+}
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  padding-left: 0;
+}
+.checklist li {
+  display: flex;
   gap: 0.5rem;
-  flex-shrink: 0;
+  align-items: flex-start;
+  margin: 0.25rem 0;
+}
+.checklist input[type="checkbox"] {
+  margin-top: 0.2rem;
+  transform: translateY(2px);
 }
 
-.new-note:hover {
-  background-color: var(--hover-blue);
+/* Background moods (subset shown; keep all you added earlier) */
+.bg-clean {
+  background: #ffffff;
+}
+.bg-sunrise {
+  background: radial-gradient(
+      120% 120% at 0% 0%,
+      rgba(255, 200, 55, 0.28) 0%,
+      rgba(255, 200, 55, 0) 60%
+    ),
+    linear-gradient(135deg, #ffe08a 0%, #ffb7c5 45%, #ffa26b 100%);
+}
+.bg-watercolor {
+  background: radial-gradient(
+      40% 60% at 20% 30%,
+      rgba(255, 182, 193, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 50% at 80% 20%,
+      rgba(255, 214, 102, 0.35),
+      transparent 60%
+    ),
+    radial-gradient(
+      50% 60% at 60% 80%,
+      rgba(173, 216, 230, 0.35),
+      transparent 60%
+    ),
+    #fffdf8;
+}
+.bg-confetti {
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 94, 94, 0.22) 0 20%,
+      transparent 21%
+    ),
+    radial-gradient(
+      circle at 80% 35%,
+      rgba(255, 214, 102, 0.22) 0 16%,
+      transparent 17%
+    ),
+    radial-gradient(
+      circle at 45% 75%,
+      rgba(102, 204, 255, 0.22) 0 18%,
+      transparent 19%
+    ),
+    #fffefc;
+}
+.bg-sunset-rush {
+  background: linear-gradient(135deg, #ff9966, #ff5e62);
+}
+.bg-pastel-sky {
+  background: linear-gradient(180deg, #e6f1ff 0%, #f7faff 60%, #fff 100%);
+}
+.bg-ocean {
+  background: radial-gradient(
+      80% 50% at 50% 0%,
+      rgba(255, 255, 255, 0.5),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #a0d9ff 0%, #76c8ff 40%, #c3ecff 100%);
+}
+.bg-cozy-beige {
+  background: linear-gradient(180deg, #faf7f1, #fffdf7);
+}
+.bg-cloud-notes {
+  background: radial-gradient(
+      60% 40% at 30% 30%,
+      rgba(255, 255, 255, 0.8),
+      transparent 60%
+    ),
+    radial-gradient(
+      60% 50% at 70% 60%,
+      rgba(255, 255, 255, 0.7),
+      transparent 65%
+    ),
+    #cfe8ff;
+}
+.bg-rain {
+  background: repeating-linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.15) 0 2px,
+      transparent 2px 6px
+    ),
+    linear-gradient(180deg, #1f2b45, #3a4a6a);
+}
+.bg-old-paper {
+  background: radial-gradient(
+      70% 60% at 50% 0%,
+      rgba(255, 255, 255, 0.3),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #f1e7d0, #e3d6b8);
+  filter: contrast(1.02) saturate(0.9);
 }
 
-/* Media Query / Quick Notes */
+.bg-faded-film {
+  background: repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.03) 0 2px,
+      transparent 2px 4px
+    ),
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(255, 255, 255, 0.15),
+      transparent 70%
+    ),
+    linear-gradient(180deg, #4e5d6c, #2c3e50);
+  filter: contrast(1.1) brightness(0.9);
+}
 
+.bg-grunge {
+  background: radial-gradient(
+      80% 60% at 50% 30%,
+      rgba(255, 80, 80, 0.12),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #1a1a1a, #550000);
+}
+.bg-fire {
+  background: radial-gradient(
+      50% 40% at 50% 30%,
+      rgba(255, 120, 0, 0.2),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #2a0000, #7a1a00 55%, #ff4500 120%);
+}
+
+.bg-cracked-wall {
+  background: repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0 2px,
+      transparent 2px 6px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.25) 0 3px,
+      transparent 3px 7px
+    ),
+    linear-gradient(180deg, #7a1f1f, #2d0a0a 70%);
+  background-blend-mode: multiply;
+}
+
+.bg-wood {
+  background: repeating-linear-gradient(
+      90deg,
+      rgba(110, 70, 30, 0.08) 0 8px,
+      rgba(110, 70, 30, 0.12) 8px 16px
+    ),
+    linear-gradient(180deg, #f4e4cc, #e7d1ab);
+}
+.bg-leaf {
+  background: radial-gradient(
+      60% 50% at 20% 20%,
+      rgba(120, 180, 80, 0.18),
+      transparent 60%
+    ),
+    radial-gradient(
+      60% 50% at 80% 70%,
+      rgba(80, 140, 90, 0.18),
+      transparent 60%
+    ),
+    #f6fff6;
+}
+.bg-stone {
+  background: radial-gradient(
+      60% 60% at 30% 30%,
+      rgba(0, 0, 0, 0.05),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #e7e7e7, #d8d8d8);
+}
+.bg-galaxy {
+  background: radial-gradient(
+      50% 50% at 20% 30%,
+      rgba(255, 255, 255, 0.25),
+      transparent 60%
+    ),
+    radial-gradient(
+      30% 30% at 70% 60%,
+      rgba(255, 128, 255, 0.18),
+      transparent 70%
+    ),
+    linear-gradient(180deg, #0b0b1f, #16163a);
+}
+.bg-holo {
+  background: linear-gradient(
+      135deg,
+      rgba(255, 0, 200, 0.18),
+      rgba(0, 255, 255, 0.18)
+    ),
+    linear-gradient(225deg, rgba(255, 255, 0, 0.18), rgba(0, 128, 255, 0.18)),
+    #0f0f0f;
+}
+
+.bg-smoke {
+  background: radial-gradient(
+      80% 120% at 30% 40%,
+      rgba(255, 255, 255, 0.25),
+      transparent 70%
+    ),
+    radial-gradient(
+      60% 100% at 70% 70%,
+      rgba(200, 200, 255, 0.2),
+      transparent 60%
+    ),
+    radial-gradient(
+      100% 150% at 50% 80%,
+      rgba(180, 180, 200, 0.15),
+      transparent 70%
+    ),
+    linear-gradient(180deg, #1a1a2e, #0f0f1f);
+}
+
+.bg-marble {
+  background: radial-gradient(
+      120% 120% at 0% 0%,
+      rgba(255, 255, 255, 0.6),
+      transparent 60%
+    ),
+    linear-gradient(135deg, #f7f7f9, #ececf1);
+}
+.bg-deep-blue {
+  background: linear-gradient(180deg, #0e1e3a, #112a54);
+}
+.bg-minimal-grid {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px), #fff;
+  background-size: 16px 16px, 16px 16px, auto;
+}
+
+/* Focus ring */
+.note-card:focus-within {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion */
 @media (max-width: 768px) {
-  .new-note {
-    width: 100%;
+  #notes-form {
+    flex-direction: column;
+    gap: 0.7rem;
   }
 
+  #note-title {
+    font-weight: 700;
+    font-size: 1.06rem;
+    margin: 0;
+    flex: 1;
+    max-height: 2.5rem;
+  }
+
+  .new-note {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
   .new-note .btn-text {
     display: inline;
     margin-left: 0.4rem;
   }
 }
+
+/* Media Query for Progress Tracker */
 
 @media (max-width: 768px) {
   /* Make the form layout vertical for mobile */
@@ -1620,5 +2109,25 @@ body {
     height: 2.3rem;
     min-height: unset;
     box-sizing: border-box;
+  }
+}
+
+/* Media Query / Task Manager */
+
+@media (max-width: 768px) {
+  /* Make the form layout vertical for mobile */
+  #task-form {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+
+  .submit-task {
+    width: 100%;
+  }
+
+  .submit-task .btn-text {
+    display: inline;
+    margin-left: 0.4rem;
   }
 }
