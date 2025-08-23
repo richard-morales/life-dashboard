@@ -41,7 +41,7 @@ It provides a collection of standalone widgets designed to help organize daily l
     
 -   Input formatting powered by **Cleave.js**.
 
-### ⏱️ Habit Tracker
+### ⏱️ Habit Clock
 -   Visual “habit clocks” to count days since a habit started.
     
 -   Duration shown in **years, months, and days**.
@@ -71,37 +71,37 @@ It provides a collection of standalone widgets designed to help organize daily l
 ## 📸 Screenshots
 
 ### Dashboard
-![Dashboard](assets/screenshots/dashboard.png)
+![Dashboard](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/dashboard.png)
 
 *Overview of the main dashboard with all widgets available.*
 
 ### Task Manager
-![Task Manager](assets/screenshots/task-manager.png)
+![Task Manager](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/task-manager.png)
 
 *Add, complete, and delete tasks with simple interaction.*
 
 ### Weekly Goals
-![Task Manager](assets/screenshots/weekly-goals.png)
+![Weekly Goals](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/weekly-goals.png)
 
 Set weekly goals with targets and track progress visually with a progress bar.
 
 ### Progress Tracker
-![Progress Tracker](assets/screenshots/progress-tracker.png)
+![Progress Tracker](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/progress-tracker.png)
 
 *Interactive chart with zoom/pan and summary stats.*
 
-### Habits Tracker
-![Habits Tracker](assets/screenshots/habits-tracker.png)
+### Habit Clock
+![Habit Clock](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/habit-clock.png)
 
 *Visual ornate clock showing days since a habit started.*
 
 ### Quick Notes
-![Quick Notes](assets/screenshots/quick-notes.png)
+![Quick Notes](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/quick-notes.png)
 
 *Rich-text editor with multiple formatting tools and background moods.*
 
 ### Budget Tracker
-![Budget Tracker](assets/screenshots/budget-tracker.png)
+![Budget Tracker](https://github.com/richard-morales/life-dashboard/blob/main/assets/images/screenshots/budget-tracker.png)
 
 *Track your income and expenses with auto-updated totals.*
 
@@ -176,3 +176,4 @@ Created by **Richard Camilo Morales**
 
 - [GitHub](https://github.com/richard-morales)  
 - [Portfolio](https://richard-morales.github.io)  
+
