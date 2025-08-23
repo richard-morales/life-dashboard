@@ -1,27 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--
+      Life Dashboard — Weekly Goals (goals.html)
+      ------------------------------------------------------------
+      Purpose: Allows users to define weekly SMART goals and
+      track them across selected weekdays.
+      Features:
+      - Info card explaining SMART goals
+      - Goal creation form (description, target, units, weekdays)
+      - Dynamic goals list (hidden until populated)
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weekly Goals</title>
 
+    <!-- Performance: preconnect to font CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Typography: Roboto family (all weights, normal & italic) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
 
+    <!-- App styles -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Icons: Font Awesome (used in form and buttons) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
   </head>
   <body>
-    <!-- App container -->
+    <!--
+      App Container
+      ------------------------------------------------------------
+      Consistent layout wrapper across all widget pages.
+    -->
     <div class="app-container">
-      <!-- App header -->
+      <!--
+        Header
+        ----------------------------------------------------------
+        Displays widget illustration, title, and motivational tagline.
+      -->
       <header class="app-header">
         <img
           src="assets/images/widgets/weekly-goals.svg"
@@ -33,7 +57,11 @@
       </header>
 
       <main>
-        <!-- SMART Goals Info Card -->
+        <!--
+          Info Card: SMART Goals
+          --------------------------------------------------------
+          Provides context on why SMART goals are effective.
+        -->
         <section class="info-card">
           <h2>Why SMART Goals?</h2>
           <p>
@@ -43,7 +71,15 @@
           </p>
         </section>
 
-        <!-- Form Card (only the form) -->
+        <!--
+          Form Card
+          --------------------------------------------------------
+          Form inputs for creating a weekly goal:
+          - Description of the goal
+          - Target value (with unit selector)
+          - Optional custom unit field
+          - Weekday selector (checkboxes)
+        -->
         <section class="card goals-form-card">
           <form id="goals-form">
             <input
@@ -53,6 +89,8 @@
               placeholder="Describe your goal (e.g., Read, Walk)"
               required
             />
+
+            <!-- Target value + unit selector -->
             <div id="target-container">
               <input
                 id="goal-target"
@@ -67,6 +105,8 @@
                 <option value="pages">Page(s)</option>
                 <option value="custom">Custom</option>
               </select>
+
+              <!-- Custom unit (only visible if selected) -->
               <input
                 type="text"
                 id="custom-unit"
@@ -76,7 +116,11 @@
               />
             </div>
 
-            <!-- Weekday picker -->
+            <!--
+              Weekday Picker
+              ----------------------------------------------------
+              Allows users to select which days the goal applies to.
+            -->
             <fieldset class="weekday-picker">
               <legend>Which days?</legend>
               <label class="day"
@@ -124,7 +168,11 @@
           </form>
         </section>
 
-        <!-- Goals List Card (hidden when empty) -->
+        <!--
+          Goals List Card
+          --------------------------------------------------------
+          Initially hidden. Displays all goals added by the user.
+        -->
         <section
           class="card goals-list-card"
           id="goals-section"
@@ -135,12 +183,20 @@
         </section>
       </main>
 
-      <!-- Back To Dashboard Link -->
+      <!--
+        Back Navigation
+        --------------------------------------------------------
+        Returns user to the main dashboard.
+      -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
 
-      <!-- Footer -->
+      <!--
+        Footer
+        --------------------------------------------------------
+        Common across all widgets. External links open in new tabs.
+      -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
         <nav class="footer-links">
@@ -157,6 +213,12 @@
       </footer>
     </div>
 
+    <!--
+      Scripts
+      --------------------------------------------------------
+      goals.js: contains the logic for goal creation, validation,
+      weekday selection, persistence, and list rendering.
+    -->
     <script src="goals.js"></script>
   </body>
 </html>

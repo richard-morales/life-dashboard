@@ -1,18 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--
+      Life Dashboard — Budget Tracker (budget.html)
+      ------------------------------------------------------------
+      Purpose: Standalone widget page for tracking income and expenses.
+      Features:
+      - Input form for transactions (income/expense)
+      - Transaction list
+      - Summary totals
+      Tech: HTML5, CSS3, Font Awesome, Cleave.js for input formatting
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Budget Tracker</title>
 
+    <!-- Performance: preconnect to font CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Typography: Roboto family (all weights, normal & italic) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
 
+    <!-- App styles -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Icons: Font Awesome (used in buttons and headers) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -20,9 +36,18 @@
   </head>
 
   <body>
-    <!-- App container -->
+    <!--
+      App Container
+      ------------------------------------------------------------
+      Provides consistent layout across all widget pages
+      (header, main content, back link, footer).
+    -->
     <div class="app-container">
-      <!-- App header -->
+      <!--
+        Header
+        ----------------------------------------------------------
+        Includes widget illustration, title, and supporting text.
+      -->
       <header class="app-header">
         <img
           src="assets/images/widgets/budget-tracker.svg"
@@ -32,8 +57,16 @@
         <h1>Budget Tracker</h1>
         <p>Track your income and expenses here.</p>
       </header>
+
       <main>
-        <!-- Budget Items Input Form -->
+        <!--
+          Input Form
+          --------------------------------------------------------
+          Allows adding a transaction:
+          - Type: income or expense
+          - Description: free text
+          - Amount: numeric input (formatted with Cleave.js)
+        -->
         <section class="card budget-widget">
           <form id="budget-form">
             <select id="transaction-type" name="transaction-type">
@@ -58,25 +91,46 @@
             />
 
             <button type="submit" class="submit-budget">
-              <i class="fa-solid fa-plus"></i
-              ><span class="btn-text">Add Transaction</span>
+              <i class="fa-solid fa-plus"></i>
+              <span class="btn-text">Add Transaction</span>
             </button>
           </form>
         </section>
 
-        <!-- Budget Transaction Detals -->
+        <!--
+          Transaction List
+          --------------------------------------------------------
+          Will be populated dynamically by budget.js with
+          past income and expense entries.
+        -->
         <section class="card" id="budget-transaction"></section>
 
-        <!-- Summary of Transactions -->
+        <!--
+          Summary Section
+          --------------------------------------------------------
+          Displays computed totals:
+          - Total income
+          - Total expenses
+          - Net balance
+        -->
         <section class="card" id="budget-summary"></section>
       </main>
 
-      <!-- Back To Dashboard Link -->
+      <!--
+        Back Navigation
+        --------------------------------------------------------
+        Returns the user to the main dashboard.
+      -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
 
-      <!-- Footer -->
+      <!--
+        Footer
+        --------------------------------------------------------
+        Repeated across all widget pages for consistency.
+        External links open in new tabs.
+      -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
         <nav class="footer-links">
@@ -93,6 +147,12 @@
       </footer>
     </div>
 
+    <!--
+      Scripts
+      --------------------------------------------------------
+      - Cleave.js: client-side library to format numeric inputs
+      - budget.js: handles state, rendering, and persistence
+    -->
     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1/dist/cleave.min.js"></script>
     <script src="budget.js"></script>
   </body>

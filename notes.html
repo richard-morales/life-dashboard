@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--
+      Life Dashboard — Quick Notes (notes.html)
+      ------------------------------------------------------------
+      Purpose: Lightweight notes tool for capturing ideas, lists,
+      or reflections. Includes support for exporting notes.
+      Features:
+      - Form for creating titled notes
+      - Dynamic notes stack container
+      - Export helpers (html2canvas + jsPDF)
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quick Notes</title>
 
+    <!-- Performance: preconnect to font CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Typography: Roboto + decorative families for notes styling -->
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
 
+    <!-- App styles -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Icons: Font Awesome (used in buttons) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
+
+    <!-- Additional font families for note styling options -->
     <link
       href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=Special+Elite&family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Italiana&family=Great+Vibes&family=Dancing+Script:wght@500;700&family=Lobster&family=Pacifico&family=Merriweather:wght@400;700&family=Lora:wght@400;700&family=Poppins:wght@400;600&family=Raleway:wght@400;600&display=swap"
       rel="stylesheet"
@@ -29,7 +47,11 @@
 
   <body>
     <div class="app-container">
-      <!-- App header -->
+      <!--
+        Header
+        ----------------------------------------------------------
+        Displays widget illustration, title, and tagline.
+      -->
       <header class="app-header">
         <img
           src="assets/images/widgets/notes.svg"
@@ -40,8 +62,21 @@
         <p>Capture ideas, lists, and reflections in one simple space.</p>
       </header>
 
-      <!-- Widget Tools -->
+      <!--
+        Main Content
+        ----------------------------------------------------------
+        Contains the form for creating new notes and the container
+        where notes will be dynamically displayed.
+      -->
       <main>
+        <!--
+          Add Note Form
+          --------------------------------------------------------
+          Input:
+          - Note title
+          Button:
+          - “New Note” (creates a new note card in the stack)
+        -->
         <section class="card notes-widget">
           <form id="notes-form">
             <label for="note-title" class="visually-hidden">Note Title</label>
@@ -60,15 +95,29 @@
           </form>
         </section>
 
+        <!--
+          Notes Stack
+          --------------------------------------------------------
+          Empty container that will be filled dynamically with notes.
+        -->
         <section id="notes-container" class="notes-stack"></section>
       </main>
 
-      <!-- Back To Dashboard Link -->
+      <!--
+        Back Navigation
+        --------------------------------------------------------
+        Returns the user to the main dashboard.
+      -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
 
-      <!-- Footer -->
+      <!--
+        Footer
+        --------------------------------------------------------
+        Shared footer across all widget pages. External links
+        open in new tabs.
+      -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
         <nav class="footer-links">
@@ -84,10 +133,17 @@
         </nav>
       </footer>
     </div>
-    <!-- Export helpers -->
+
+    <!--
+      Export Helpers
+      --------------------------------------------------------
+      - html2canvas: capture DOM nodes as images
+      - jsPDF: export captured notes as PDF
+    -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 
+    <!-- Widget logic -->
     <script src="notes.js"></script>
   </body>
 </html>

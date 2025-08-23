@@ -1,4 +1,11 @@
-// Reference all relevant elements
+// ============================================================
+// Budget Tracker — JavaScript Logic
+// ------------------------------------------------------------
+// Handles: input form, transaction list rendering, summary totals,
+// persistence via localStorage, and currency formatting.
+// ============================================================
+
+// DOM References
 const budgetForm = document.getElementById("budget-form");
 const transactionType = document.getElementById("transaction-type");
 const budgetDescription = document.getElementById("budget-description");
@@ -6,8 +13,10 @@ const budgetAmount = document.getElementById("budget-amount");
 const transactionSection = document.getElementById("budget-transaction");
 const summarySection = document.getElementById("budget-summary");
 
-// Currency format
-
+// ------------------------------------------------------------
+// Currency Formatting
+// Uses Intl.NumberFormat for consistent USD formatting
+// ------------------------------------------------------------
 function formatCurrency(value) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -16,27 +25,35 @@ function formatCurrency(value) {
   }).format(value);
 }
 
-// Save the array to localStorage
+// ------------------------------------------------------------
+// Persistence Helpers (localStorage)
+// ------------------------------------------------------------
 
+// Save transactions array to localStorage
 function saveTransactions(transactions) {
   localStorage.setItem("transactions", JSON.stringify(transactions));
 }
 
-// Load the array from localStorage
+// Load transactions array from localStorage
 function loadTransactions() {
   const stored = localStorage.getItem("transactions");
   return stored ? JSON.parse(stored) : [];
 }
 
-// When page loads, display what's in storage
+// ------------------------------------------------------------
+// Initialization
+// Render existing data immediately on page load
+// ------------------------------------------------------------
 window.addEventListener("DOMContentLoaded", renderTransactions);
 
-// Render transaction and Summary
-
+// ------------------------------------------------------------
+// Render Function
+// Builds transaction cards, summary section, and feedback
+// ------------------------------------------------------------
 function renderTransactions() {
   const transactions = loadTransactions();
 
-  // Render transactions
+  // Empty state
   if (transactions.length === 0) {
     transactionSection.innerHTML =
       "<p style='text-align:center; color:#b0b0b0'>No transactions yet.</p>";
@@ -45,7 +62,7 @@ function renderTransactions() {
     return;
   }
 
-  // Cards for each transaction
+  // Transaction cards
   const transactionCards = transactions
     .map(
       (t, idx) => `
@@ -64,7 +81,9 @@ function renderTransactions() {
         <span class="amount">${t.type === "income" ? "+" : "-"}${formatCurrency(
         t.amount
       )}</span>
-        <button class="delete-transaction" data-index="${idx}" title="Delete"><i class="fa-solid fa-trash"></i></button>
+        <button class="delete-transaction" data-index="${idx}" title="Delete">
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </div>
     </div>
   `
@@ -72,7 +91,7 @@ function renderTransactions() {
     .join("");
   transactionSection.innerHTML = transactionCards;
 
-  // Add delete functionality for each button
+  // Attach delete handlers
   const deleteButtons = transactionSection.querySelectorAll(
     ".delete-transaction"
   );
@@ -86,7 +105,7 @@ function renderTransactions() {
     });
   });
 
-  // Calculate totals
+  // Totals calculation
   let income = 0,
     expenses = 0;
   transactions.forEach((t) => {
@@ -95,7 +114,7 @@ function renderTransactions() {
   });
   const balance = income - expenses;
 
-  // Determine feedback message and color
+  // Feedback message
   let feedbackMsg = "";
   let feedbackClass = "";
   if (income === 0 && expenses === 0) {
@@ -112,7 +131,7 @@ function renderTransactions() {
     feedbackClass = "negative";
   }
 
-  // Show summary
+  // Render summary
   summarySection.innerHTML = `
   <div class="summary-flex">
     <div class="summary-box income">
@@ -136,7 +155,7 @@ function renderTransactions() {
   <div class="summary-feedback ${feedbackClass}">${feedbackMsg}</div>
 `;
 
-  // Add Reset All button (only if there are transactions)
+  // Reset All button
   const resetBtn = document.createElement("button");
   resetBtn.id = "reset-btn";
   resetBtn.textContent = "Reset All";
@@ -153,15 +172,18 @@ function renderTransactions() {
   summarySection.appendChild(resetBtn);
 }
 
+// Ensure sections are visible (unless explicitly hidden by empty state)
 transactionSection.style.display = "block";
 summarySection.style.display = "block";
 
-// Add a new transaction
-
+// ------------------------------------------------------------
+// Event: Form Submission
+// Adds a new transaction and updates state/UI
+// ------------------------------------------------------------
 budgetForm.addEventListener("submit", (event) => {
-  event.preventDefault(); // Stops default page refresh
+  event.preventDefault(); // Prevents full page reload
 
-  // Get user inputs
+  // Collect user input
   const type = transactionType.value;
   const desc = budgetDescription.value.trim();
   const amountInput = document.getElementById("budget-amount");
@@ -169,37 +191,32 @@ budgetForm.addEventListener("submit", (event) => {
     amountInput.rawValue || amountInput.value.replace(/,/g, "")
   );
 
-  // Validate Input
+  // Validation
   if (!desc || isNaN(amount) || amount <= 0) {
     alert("Please enter a valid description and positive amount.");
     return;
   }
 
   // Create transaction object
-  const newTransaction = {
-    type: type,
-    desc: desc,
-    amount: amount,
-  };
+  const newTransaction = { type, desc, amount };
 
-  // Get current transactions
+  // Update array and persist
   const transactions = loadTransactions();
-
-  // Add new transaction to array
   transactions.push(newTransaction);
-
-  // Save back to storage
   saveTransactions(transactions);
 
   // Re-render UI
   renderTransactions();
 
-  //   Clear form fields for next entry
+  // Clear inputs for next entry
   budgetDescription.value = "";
   budgetAmount.value = "";
 });
 
-// Initialize Cleave
+// ------------------------------------------------------------
+// Cleave.js Initialization
+// Formats numeric input with thousands separators
+// ------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", function () {
   new Cleave("#budget-amount", {
     numeral: true,

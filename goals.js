@@ -1,5 +1,13 @@
-// --- Helper Functions ---
+// ============================================================
+// Weekly Goals — JavaScript Logic
+// ------------------------------------------------------------
+// Handles: goal creation, progress tracking, weekly resets,
+// rendering with progress bars, and persistence via localStorage.
+// ============================================================
 
+// ------------------------------------------------------------
+// Persistence Helpers (localStorage)
+// ------------------------------------------------------------
 function saveGoals() {
   localStorage.setItem("weeklyGoals", JSON.stringify(goals));
 }
@@ -7,18 +15,26 @@ function loadGoals() {
   const stored = localStorage.getItem("weeklyGoals");
   return stored ? JSON.parse(stored) : [];
 }
+
+// ------------------------------------------------------------
+// Week Calculation Helper
+// ------------------------------------------------------------
+// Returns a string like "2025-34" for Year-Week number.
+// Used to reset goals weekly based on ISO-like week logic.
 function getYearWeek(date = new Date()) {
   const d = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   );
   d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  // 86,400,000 ms = 1 day. Adding 1 includes the first day of the first week, shifting from zero-based to one-based counting.
-  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7); // Division and addition have the same precedence level, so this operation is evaluated from left to right (+ 1 occurs after the division).
-  return `${d.getUTCFullYear()}-${weekNo}`; //  Result will be the week number of the current week, so we know which week we are currently in. right now.
+  // 86,400,000 ms = 1 day. Adding 1 includes the first day of the first week.
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-${weekNo}`;
 }
 
-// --- DOM References ---
+// ------------------------------------------------------------
+// DOM References
+// ------------------------------------------------------------
 const form = document.getElementById("goals-form");
 const descriptionInput = document.getElementById("goal-description");
 const targetInput = document.getElementById("goal-target");
@@ -26,7 +42,9 @@ const unitSelect = document.getElementById("unit-measure");
 const customUnitInput = document.getElementById("custom-unit");
 const goalsList = document.getElementById("goals-list");
 
-// --- Show/hide custom unit field ---
+// ------------------------------------------------------------
+// Unit Selection — Toggle Custom Input
+// ------------------------------------------------------------
 unitSelect.addEventListener("change", function () {
   if (unitSelect.value === "custom") {
     customUnitInput.style.display = "block";
@@ -38,7 +56,11 @@ unitSelect.addEventListener("change", function () {
   }
 });
 
-// --- Weekly Reset Logic ---
+// ------------------------------------------------------------
+// Weekly Reset Logic
+// ------------------------------------------------------------
+// At the start of a new week, clear all progress checkmarks
+// but preserve the goal definitions.
 const currentYearWeek = getYearWeek();
 const lastReset = localStorage.getItem("goalsLastReset");
 
@@ -53,18 +75,24 @@ if (lastReset !== currentYearWeek) {
   localStorage.setItem("goalsLastReset", currentYearWeek);
 }
 
-// --- Helper: Get today's weekday in short ---
+// ------------------------------------------------------------
+// Helper: Today's Weekday (short format)
+// ------------------------------------------------------------
 function getTodayShort() {
   const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
   return days[new Date().getDay()];
 }
 
-// --- Render Goals List ---
+// ------------------------------------------------------------
+// Render Goals
+// ------------------------------------------------------------
+// Builds the goals list UI with progress checkboxes, bars,
+// feedback messages, and delete handlers.
 function renderGoals() {
   const goalsList = document.getElementById("goals-list");
   const goalsSection = document.getElementById("goals-section");
 
-  // Show or hide the goals card
+  // Show/hide container depending on whether goals exist
   if (goals.length === 0) {
     goalsSection.style.display = "none";
     return;
@@ -72,7 +100,7 @@ function renderGoals() {
     goalsSection.style.display = "block";
   }
 
-  goalsList.innerHTML = ""; // Clear previous list
+  goalsList.innerHTML = ""; // Clear previous render
 
   goals.forEach((goal, idx) => {
     // Build checkboxes for each selected day
@@ -89,7 +117,7 @@ function renderGoals() {
       `;
     });
 
-    // Calculate progress
+    // Progress calculation
     const total = goal.days.length;
     const completed = goal.progress
       ? Object.values(goal.progress).filter(Boolean).length
@@ -106,13 +134,13 @@ function renderGoals() {
       </div>
     `;
 
-    // Feedback message
+    // Daily feedback
     const feedback =
       goal.progress && goal.progress[getTodayShort()]
         ? `<span class="good-news">Great job! You completed today!</span>`
         : "";
 
-    // Build the goal item HTML
+    // Build list item for goal
     const li = document.createElement("li");
     li.className = "goal-item";
     li.innerHTML = `
@@ -130,7 +158,7 @@ function renderGoals() {
     goalsList.appendChild(li);
   });
 
-  // --- Add delete event listeners ---
+  // Attach delete event listeners
   goalsList.querySelectorAll(".delete-goal").forEach((btn) => {
     btn.addEventListener("click", function () {
       const idx = parseInt(this.dataset.index, 10);
@@ -140,7 +168,7 @@ function renderGoals() {
     });
   });
 
-  // --- Add progress checkbox listeners ---
+  // Attach progress checkbox listeners
   goalsList.querySelectorAll(".progress-checkbox").forEach((checkbox) => {
     checkbox.addEventListener("change", function () {
       const goalIdx = parseInt(this.dataset.goal, 10);
@@ -152,22 +180,24 @@ function renderGoals() {
     });
   });
 
-  // --- Add disabled label animation/inline feedback ---
+  // Attach disabled label animation + inline feedback
   goalsList.querySelectorAll(".label-disabled").forEach((label) => {
-    label.addEventListener("click", function (e) {
-      // Animate the label with shake
+    label.addEventListener("click", function () {
+      // Animate with shake effect
       label.classList.remove("shake");
-      void label.offsetWidth;
+      void label.offsetWidth; // Force reflow
       label.classList.add("shake");
-      // Show inline message
+      // Show inline tooltip
       showInlineMessage(label, "Only today's progress can be marked.");
     });
   });
 }
 
-// Helper function to show a temporary inline message
+// ------------------------------------------------------------
+// Inline Message Helper
+// ------------------------------------------------------------
+// Displays a temporary tooltip below a disabled day label.
 function showInlineMessage(label, msg) {
-  // Remove any existing message
   const existing = label.querySelector(".inline-message");
   if (existing) existing.remove();
 
@@ -182,7 +212,9 @@ function showInlineMessage(label, msg) {
   }, 2000);
 }
 
-// --- Add New Goal ---
+// ------------------------------------------------------------
+// Event: Add New Goal
+// ------------------------------------------------------------
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -194,16 +226,18 @@ form.addEventListener("submit", function (event) {
   } else {
     unit = unitSelect.value;
   }
+
   const days = Array.from(
     form.querySelectorAll("input[type='checkbox'][name='days']:checked")
   ).map((cb) => cb.value);
 
-  // Require at least one weekday
+  // Guard: require at least one weekday
   if (days.length === 0) {
     alert("Please select at least one weekday for your goal.");
     return;
   }
 
+  // Build goal object
   const goal = {
     description,
     target,
@@ -217,10 +251,13 @@ form.addEventListener("submit", function (event) {
   saveGoals();
   renderGoals();
   form.reset();
-  // Hide custom unit input if form is reset
+
+  // Reset custom unit visibility on form reset
   customUnitInput.style.display = "none";
   customUnitInput.required = false;
 });
 
-// --- Initial Render ---
+// ------------------------------------------------------------
+// Initial Render
+// ------------------------------------------------------------
 renderGoals();

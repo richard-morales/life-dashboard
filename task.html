@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Task Manager</title>
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,7 +13,10 @@
       rel="stylesheet"
     />
 
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -21,24 +25,29 @@
 
   <body>
     <div class="app-container">
-      <!-- Header -->
-
+      <!-- =========================================================
+           Header
+           ---------------------------------------------------------
+           Page title, subtitle, and widget illustration.
+           ========================================================= -->
       <header class="app-header">
         <img
           src="assets/images/widgets/task-manager.svg"
           alt="Task Manager Illustration"
           class="widget-illustration"
         />
-
         <h1><i class="fa-solid fa-list-check"></i> Task Manager</h1>
         <p>Keep track of your tasks and never miss a thing.</p>
       </header>
 
-      <!-- Main Content -->
-
-      <!-- Task Manager -->
+      <!-- =========================================================
+           Main Content
+           ---------------------------------------------------------
+           Single card: input form + task list.
+           ========================================================= -->
       <main>
         <section class="card task-widget">
+          <!-- Form: add a new task -->
           <form class="task-form">
             <input
               type="text"
@@ -52,16 +61,25 @@
             </button>
           </form>
 
+          <!-- List of tasks (rendered by task.js) -->
           <ul id="task-list"></ul>
         </section>
       </main>
 
-      <!-- Back to Dashboard Link -->
+      <!-- =========================================================
+           Navigation
+           ---------------------------------------------------------
+           Link back to the dashboard.
+           ========================================================= -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
 
-      <!-- Footer -->
+      <!-- =========================================================
+           Footer
+           ---------------------------------------------------------
+           Site signature + external links.
+           ========================================================= -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
         <nav class="footer-links">
@@ -78,6 +96,7 @@
       </footer>
     </div>
 
+    <!-- Logic for this widget -->
     <script src="task.js"></script>
   </body>
 </html>

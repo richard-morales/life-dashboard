@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--
+      Life Dashboard — Progress Tracker (progress.html)
+      ------------------------------------------------------------
+      Purpose: Create one or more trackers, log metric entries,
+      and visualize history with charts.
+      Includes: Chart.js + zoom plugin for interactive plots.
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Progress Tracker</title>
 
+    <!-- Performance: preconnect to font CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Typography: Roboto family (all weights, normal & italic) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
 
+    <!-- App styles -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Icons: Font Awesome (used in buttons and headers) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -21,7 +34,11 @@
 
   <body>
     <div class="app-container">
-      <!-- App header -->
+      <!--
+        Header
+        ----------------------------------------------------------
+        Illustration, title, and short description of the widget.
+      -->
       <header class="app-header">
         <img
           src="assets/images/widgets/progress.svg"
@@ -32,9 +49,23 @@
         <p>Track your progress and see your results grow over time.</p>
       </header>
 
-      <!-- Widget Tools -->
+      <!--
+        Main Content
+        ----------------------------------------------------------
+        Contains the tracker creation form and the container where
+        individual tracker cards (with charts + stats) will render.
+      -->
       <main>
         <section class="card progress-widget">
+          <!--
+            Tracker Form
+            ------------------------------------------------------
+            Inputs:
+            - Item description (what you’re tracking)
+            - Unit selector (or custom unit)
+            Action:
+            - “Add Item” creates a new tracker card below.
+          -->
           <form id="progress-form">
             <label for="item-description" class="visually-hidden"
               >Item Description</label
@@ -65,6 +96,7 @@
             </button>
           </form>
 
+          <!-- Custom unit input (shown only when "Custom unit" selected) -->
           <label for="custom-unit-progress" class="visually-hidden"
             >Custom Unit</label
           >
@@ -77,16 +109,29 @@
           />
         </section>
 
-        <!-- All progress tracker cards will be rendered here -->
+        <!--
+          Trackers Container
+          ------------------------------------------------------
+          All progress tracker cards (each with its own chart and
+          entry list) are rendered here by progress.js.
+        -->
         <div id="progress-trackers-container"></div>
       </main>
 
-      <!-- Back To Dashboard Link -->
+      <!--
+        Back Navigation
+        --------------------------------------------------------
+        Returns the user to the main dashboard.
+      -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
 
-      <!-- Footer -->
+      <!--
+        Footer
+        --------------------------------------------------------
+        Common across all widgets. External links open in new tabs.
+      -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
         <nav class="footer-links">
@@ -102,6 +147,14 @@
         </nav>
       </footer>
     </div>
+
+    <!--
+      Scripts
+      --------------------------------------------------------
+      - progress.js: tracker logic (state, rendering, chart lifecycle)
+      - Chart.js: chart rendering
+      - chartjs-plugin-zoom: pinch/scroll zoom and pan
+    -->
     <script src="progress.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>

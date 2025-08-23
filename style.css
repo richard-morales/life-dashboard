@@ -1,4 +1,26 @@
-/* General Adjustments */
+/* =====================================================================
+   Life Dashboard – Global Styles (style.css)
+   ---------------------------------------------------------------------
+   Contents overview:
+   1) Design tokens / base reset
+   2) App shell (container, header, footer)
+   3) Dashboard (home grid + cards)
+   4) Task Manager
+   5) Budget Tracker
+   6) Weekly Goals
+   7) Habit Clock
+   8) Progress Tracker
+   9) Quick Notes (editor)
+   10) Media queries
+   ---------------------------------------------------------------------
+   Notes:
+   - Comments focus on structure and intent; no CSS behavior changed.
+   - Keep variable palette in :root aligned with UI illustrations.
+   ===================================================================== */
+
+/* =========================================================
+   1) Base / Reset / Design Tokens
+   ========================================================= */
 
 * {
   margin: 0;
@@ -25,6 +47,10 @@ body {
   padding: 1.25rem;
 }
 
+/* =========================================================
+   2) App Shell (container, header, footer)
+   ========================================================= */
+
 .app-container {
   max-width: 75rem;
   margin: 0 auto;
@@ -48,7 +74,31 @@ body {
   font-size: 1.8rem;
 }
 
-/* Dashboard / Homepage */
+.app-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--subtle-text);
+  border-top: solid 1px var(--border-light);
+  padding: 0.4rem 0;
+}
+
+.footer-links {
+  margin-top: 0.5rem;
+}
+
+.footer-links a {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  color: var(--subtle-text);
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+/* =========================================================
+   3) Dashboard (home grid + generic card)
+   ========================================================= */
 
 .dashboard-grid {
   display: grid;
@@ -83,29 +133,13 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.app-footer {
-  text-align: center;
-  font-size: 0.9rem;
-  color: var(--subtle-text);
-  border-top: solid 1px var(--border-light);
-  padding: 0.4rem 0;
-}
-
-.footer-links {
-  margin-top: 0.5rem;
-}
-
-.footer-links a {
-  margin: 0 0.5rem;
-  text-decoration: none;
-  color: var(--subtle-text);
-}
-
-.footer-links a:hover {
-  color: var(--primary);
-}
-
-/* Task Wigdet Page */
+/* =========================================================
+   4) Task Manager
+   - Form, list, and affordance styles.
+   - NOTE: The HTML uses `.task-form` (class). There is a media
+     query later targeting `#task-form` (id). That selector will
+     not match; kept as-is to avoid changing behavior.
+   ========================================================= */
 
 .back-link-container {
   margin-top: 2rem;
@@ -130,8 +164,7 @@ body {
   margin: 2rem auto;
 }
 
-/* New Tasks Form */
-
+/* Add Task – form row */
 .task-form {
   display: flex;
   flex-wrap: wrap;
@@ -140,7 +173,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  top: 0.7rem; /* Centered input and button manually */
+  top: 0.7rem; /* Intentional visual nudge to center group */
 }
 
 .task-form input {
@@ -184,8 +217,7 @@ body {
   padding-left: 0;
 }
 
-/* New Tasks List */
-
+/* Task items */
 .task-item {
   display: flex;
   align-items: stretch;
@@ -217,6 +249,7 @@ body {
   background: transparent;
 }
 
+/* Completion “fill” animation */
 .task-text::after {
   content: "";
   position: absolute;
@@ -236,8 +269,7 @@ body {
   width: 100%;
 }
 
-/* Delete Task Button */
-
+/* Delete button (per task) */
 .delete-task {
   background: transparent;
   border: none;
@@ -254,7 +286,10 @@ body {
   background: #fff4f0;
 }
 
-/* Budget Widget Page */
+/* =========================================================
+   5) Budget Tracker
+   - Form layout, transaction cards, and summary panel.
+   ========================================================= */
 
 .budget-widget {
   max-width: 40rem;
@@ -316,6 +351,7 @@ body {
   padding: 1rem;
 }
 
+/* Legacy list item style (kept for compatibility) */
 .transaction-item {
   display: flex;
   justify-content: space-between;
@@ -332,20 +368,18 @@ body {
 .transaction-item.income {
   border-color: var(--success);
 }
-
 .transaction-item.expense {
   border-color: tomato;
 }
-
 .transaction-item .amount {
   font-weight: bold;
 }
-
 .transaction-item .description {
   flex: 1;
   margin-left: 0.75rem;
 }
 
+/* Newer card style */
 #budget-summary {
   padding: 1rem;
   display: grid;
@@ -375,11 +409,9 @@ body {
 .summary-income {
   color: var(--subtle-text);
 }
-
 .summary-expense {
   color: tomato;
 }
-
 .summary-balance {
   color: var(--primary);
 }
@@ -394,6 +426,7 @@ body {
   margin-bottom: 2rem;
 }
 
+/* Reset button */
 #reset-btn {
   display: inline-block;
   margin-top: 1rem;
@@ -418,6 +451,7 @@ body {
   box-shadow: 0 4px 16px rgba(100, 181, 246, 0.11);
 }
 
+/* Transaction “card” visuals */
 .transaction-card {
   display: flex;
   align-items: center;
@@ -435,7 +469,6 @@ body {
 .transaction-card.income {
   border-left: 5px solid var(--success);
 }
-
 .transaction-card.expense {
   border-left: 5px solid tomato;
 }
@@ -456,7 +489,6 @@ body {
 .transaction-card.income .icon {
   color: var(--success);
 }
-
 .transaction-card.expense .icon {
   color: tomato;
 }
@@ -520,11 +552,9 @@ body {
 .summary-box.income {
   border-color: var(--success);
 }
-
 .summary-box.expense {
   border-color: tomato;
 }
-
 .summary-box.balance {
   border-color: var(--primary);
 }
@@ -553,19 +583,15 @@ body {
 .summary-box.expense .summary-value {
   color: tomato;
 }
-
 .summary-box.income .summary-value {
   color: var(--success);
 }
-
 .summary-box.balance .summary-value {
   color: var(--primary);
 }
-
 .summary-box.balance .summary-value.gain {
   color: var(--success);
 }
-
 .summary-box.balance .summary-value.loss {
   color: tomato;
 }
@@ -582,7 +608,6 @@ body {
 .summary-feedback.positive {
   color: var(--success);
 }
-
 .summary-feedback.negative {
   color: tomato;
 }
@@ -591,25 +616,24 @@ body {
   color: var(--success);
   font-weight: 600;
 }
-
 .at-limit {
   color: var(--primary);
 }
-
 .over-budget {
   color: tomato;
   font-weight: 600;
 }
-
 .emoji {
   font-size: 1.08em;
   margin-left: 0.12em;
 }
 
-/* Weekly Goals Widget */
+/* =========================================================
+   6) Weekly Goals
+   - Form layout, weekday picker, progress bar, list.
+   ========================================================= */
 
-/* Form Layout */
-
+/* Form layout */
 #goals-form {
   display: flex;
   flex-wrap: wrap;
@@ -661,8 +685,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Weekday Picker */
-
+/* Weekday picker */
 .weekday-picker {
   border: none;
   margin: 0 0 0.5rem 0;
@@ -710,8 +733,7 @@ body {
   color: var(--text);
 }
 
-/* Submit Button */
-
+/* Submit */
 .submit-goal {
   background-color: var(--primary);
   color: #fff;
@@ -732,8 +754,7 @@ body {
   background-color: var(--hover-blue);
 }
 
-/* Advise / SMART Helper Text */
-
+/* SMART helper / messaging */
 .advice {
   text-align: center;
   color: var(--subtle-text);
@@ -746,12 +767,12 @@ body {
   font-weight: 500;
 }
 
+/* Progress visuals */
 .goal-completed {
   background: #e6ffec;
   border-left: 6px solid var(--success);
 }
 
-/* Progress bar */
 .progress-bar-container {
   margin: 0.5em 0;
 }
@@ -777,8 +798,7 @@ body {
   text-align: right;
 }
 
-/* Disabled check boxes */
-
+/* Disabled checkbox feedback + micro-interaction */
 @keyframes shake {
   0% {
     transform: translateX(0);
@@ -809,35 +829,8 @@ body {
   font-size: 0.95em;
   margin-left: 0.7em;
 }
-.progress-bar-container {
-  margin: 0.5em 0;
-}
-.progress-bar-bg {
-  background: #e0e0e0;
-  border-radius: 8px;
-  width: 100%;
-  height: 16px;
-  position: relative;
-  overflow: hidden;
-}
-.progress-bar-fill {
-  background: #81c784;
-  height: 100%;
-  border-radius: 8px;
-  transition: width 0.3s;
-}
-.progress-bar-label {
-  font-size: 0.95em;
-  color: #607d8b;
-  display: block;
-  margin-top: 0.2em;
-  text-align: right;
-}
-.goal-completed {
-  background: #e6ffec;
-  border-left: 6px solid #81c784;
-}
 
+/* Info cards + lists */
 .info-card {
   background: #fff;
   border-left: 5px solid var(--accent);
@@ -869,7 +862,6 @@ body {
   margin-top: 0;
   margin-bottom: 2rem;
 }
-
 .goals-list-card {
   margin-top: 0;
   margin-bottom: 2.2rem;
@@ -894,70 +886,6 @@ body {
 
 #goals-form > * {
   margin-bottom: 0.6rem;
-}
-
-/* Media Query / Weekly Goals Widget */
-
-@media (max-width: 768px) {
-  /* Make the form layout vertical for mobile */
-  #goals-form {
-    flex-direction: column;
-    gap: 0.7rem;
-    align-items: stretch;
-  }
-
-  .info-card,
-  .goals-form-card,
-  .goals-list-card {
-    padding: 1rem 0.6rem;
-    max-width: 98vw;
-  }
-}
-
-/* Make all inputs, selects, textarea take full width */
-#goals-form input,
-#unit-measure {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  font-size: 1rem;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
-  box-sizing: border-box;
-  max-height: 2.5rem;
-}
-
-.submit-goal {
-  width: 100%;
-  margin-left: 0;
-  margin-top: 0.7rem;
-}
-
-.submit-goal .btn-text {
-  display: inline;
-  margin-left: 0.4rem;
-}
-
-/* Make checkboxes/weekday picker wrap and center */
-.weekday-picker {
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.delete-goal {
-  background: transparent;
-  border: none;
-  color: var(--subtle-text);
-  font-size: 1.15rem;
-  cursor: pointer;
-  transition: color 0.14s, background 0.14s;
-  border-radius: 4px;
-  padding: 0.22rem 0.32rem;
-}
-
-.delete-goal:hover {
-  color: tomato;
-  background: #fff4f0;
 }
 
 .goal-item {
@@ -987,9 +915,28 @@ body {
   align-items: center;
 }
 
-/* Habit Tracker Widget CSS Code */
+.delete-goal {
+  background: transparent;
+  border: none;
+  color: var(--subtle-text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: color 0.14s, background 0.14s;
+  border-radius: 4px;
+  padding: 0.22rem 0.32rem;
+}
 
-/* Hide Elements from Viewport / Still Available for Screen Readers */
+.delete-goal:hover {
+  color: tomato;
+  background: #fff4f0;
+}
+
+/* =========================================================
+   7) Habit Clock
+   - Form, clock frame, counters, and actions.
+   ========================================================= */
+
+/* A11y utility: hidden visually, available to screen readers */
 .visually-hidden {
   position: absolute;
   left: -9999px;
@@ -1027,7 +974,6 @@ body {
 #habit-description {
   flex: 2 1.5rem;
 }
-
 #habit-date {
   flex: 1 1.5rem;
   color: var(--text);
@@ -1054,8 +1000,7 @@ body {
   background-color: var(--hover-blue);
 }
 
-/* Habit Clocks */
-
+/* Clock card */
 .habit-clock {
   display: flex;
   flex-direction: column;
@@ -1088,6 +1033,7 @@ body {
   align-items: center;
 }
 
+/* “Clock” visual with rotating frame */
 .clock-container {
   position: relative;
   width: 12rem;
@@ -1120,7 +1066,6 @@ body {
   border-radius: 50%;
   z-index: 2;
   pointer-events: none;
-
   background: radial-gradient(
       circle at 30% 30%,
       rgba(255, 255, 255, 0.4) 0%,
@@ -1133,7 +1078,6 @@ body {
       rgba(255, 255, 255, 0.3) 60%,
       transparent 80%
     );
-
   box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.3),
     0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -1149,7 +1093,6 @@ body {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
@@ -1210,7 +1153,10 @@ body {
   background: #fff4f0;
 }
 
-/* CSS Code for progress.html */
+/* =========================================================
+   8) Progress Tracker
+   - Chart area, custom horizontal scrollbar, stats, table.
+   ========================================================= */
 
 .progress-widget {
   max-width: 40rem;
@@ -1272,6 +1218,7 @@ body {
   background-color: var(--hover-blue);
 }
 
+/* Stats + history table */
 .history-table-container {
   width: 100%;
   max-width: 100%;
@@ -1312,22 +1259,20 @@ body {
   background: #f6fafd;
 }
 
-/* Hide native chart scrollbar */
+/* Chart scroll container (hide native bar; custom one below) */
 .chart-scroll-container {
   scrollbar-width: none; /* Firefox */
   cursor: grab;
 }
-
 .chart-scroll-container::-webkit-scrollbar {
   height: 0;
   display: none; /* Chrome/Safari */
 }
-
 .chart-scroll-container.grabbing {
   cursor: grabbing;
 }
 
-/* Custom horizontal scrollbar container */
+/* Custom horizontal scroll bar */
 .hbar-row {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -1336,7 +1281,6 @@ body {
   margin: 0.35rem 0 0.2rem 0;
 }
 
-/* Scrollbar track */
 .hbar-track {
   position: relative;
   user-select: none;
@@ -1348,7 +1292,6 @@ body {
   cursor: pointer;
 }
 
-/* Scrollbar thumb */
 .hbar-thumb {
   position: absolute;
   top: 50%;
@@ -1367,20 +1310,15 @@ body {
 .hbar-thumb:active {
   cursor: grabbing;
 }
-
-/* Stays "grabbing" for the entire drag (mouse or touch) */
 .hbar-thumb.grabbing {
   cursor: grabbing;
 }
-
-/* Show grabbing over the whole track while dragging */
 .hbar-track.dragging,
 .hbar-track.dragging .hbar-thumb {
   cursor: grabbing;
 }
 
-/* Arrow buttons */
-
+/* Scroll arrows */
 .arrow-btn {
   background: #f6fafd;
   border: 1px solid #dde5f2;
@@ -1394,7 +1332,6 @@ body {
   align-items: center;
   justify-content: center;
 }
-
 .arrow-btn:hover {
   background: #eaf2ff;
 }
@@ -1476,21 +1413,23 @@ body {
   background: #f6fafd;
 }
 
-/* =========================
-   Quick Notes – Editor UI
-   ========================= */
+/* =========================================================
+   9) Quick Notes (Editor)
+   - New note form, card, toolbar, editor, bullets, moods.
+   ========================================================= */
 
-/* New note form */
 .notes-widget {
   max-width: 40rem;
   margin: 2rem auto;
   padding: 2rem;
 }
+
 #notes-form {
   display: flex;
   gap: 0.75rem;
   justify-content: center;
 }
+
 #notes-form input,
 .new-note {
   font-size: 1rem;
@@ -1500,10 +1439,12 @@ body {
   border-radius: 8px;
   font-family: inherit;
 }
+
 #notes-form input {
   flex: 1 1 18rem;
   min-width: 0;
 }
+
 .new-note {
   background: var(--primary);
   color: #fff;
@@ -1514,11 +1455,12 @@ body {
   gap: 0.5rem;
   transition: background 0.18s;
 }
+
 .new-note:hover {
   background: var(--hover-blue);
 }
 
-/* Notes stack (cards list) */
+/* Stack of note cards */
 .notes-stack {
   max-width: 40rem;
   margin: 1.25rem auto 2.25rem;
@@ -1527,7 +1469,7 @@ body {
   gap: 0.9rem;
 }
 
-/* Card */
+/* Note card + header */
 .note-card {
   background: var(--card-bg);
   border: 1px solid var(--border-light);
@@ -1538,17 +1480,20 @@ body {
   flex-direction: column;
   gap: 0.7rem;
 }
+
 .note-header {
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
+
 .note-title {
   font-weight: 700;
   font-size: 1.06rem;
   margin: 0;
   flex: 1;
 }
+
 .note-actions {
   display: flex;
   gap: 0.25rem;
@@ -1569,18 +1514,16 @@ body {
   color: tomato;
   background: #fff4f0;
 }
-
 .export-pdf:hover {
   color: var(--success);
   background: #fff4f0;
 }
-
 .export-png:hover {
   color: var(--success);
   background: #fff4f0;
 }
 
-/* Toolbar */
+/* Toolbar clusters */
 .note-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1630,7 +1573,7 @@ body {
   min-width: 4.5rem;
 }
 
-/* Color palette */
+/* Palette */
 .palette {
   display: flex;
   align-items: center;
@@ -1654,18 +1597,18 @@ body {
   box-shadow: inset 0 0 0 1px #bbb;
 }
 
-/* Editor area */
+/* Editor body + alignment/orientation helpers */
 .note-body {
   display: grid;
   grid-template-columns: 1fr;
-  min-height: 28rem; /* height lives on the container */
+  min-height: 28rem;
   border: 1px solid var(--border-light);
   border-radius: 12px;
   background: #fff;
-  overflow: visible; /* rotated content stays visible */
+  overflow: visible; /* Rotated content can extend */
 }
 
-/* Vertical alignment along the block axis */
+/* Vertical alignment */
 .note-body.va-top {
   align-content: start;
 }
@@ -1676,11 +1619,12 @@ body {
   align-content: end;
 }
 
-/* When rotated, allow scrolling if needed */
+/* When rotated, allow scrolling */
 .note-body.orient-rotated {
   overflow: auto;
 }
 
+/* Rich text area */
 .rich-text {
   min-height: unset;
   width: 100%;
@@ -1692,6 +1636,7 @@ body {
   word-break: break-word;
 }
 
+/* Orientation modes */
 .orient-horizontal .rich-text {
   writing-mode: horizontal-tb;
   transform: none;
@@ -1701,20 +1646,18 @@ body {
   text-orientation: mixed;
 }
 
-/* rotate then translate back into view */
+/* Rotated orientation */
 .orient-rotated .rich-text {
   writing-mode: horizontal-tb;
   display: inline-block;
   transform-origin: top left;
   transform: rotate(-90deg) translateX(-100%);
 }
-
-/* Let the container scroll if rotated content overflows */
 .note-body.orient-rotated {
   overflow: auto;
 }
 
-/* Stylish bullets */
+/* Fancy bullets */
 .rt-bullets-star ul {
   list-style: "★  ";
 }
@@ -1730,12 +1673,13 @@ body {
 .rt-bullets-dash ul {
   list-style: "–  ";
 }
+
 .rich-text ol,
 .rich-text ul {
   padding-left: 1.25rem;
 }
 
-/* Quote preset look (when used) */
+/* Quote preset */
 .rt-quote .rich-text blockquote {
   border-left: 4px solid var(--primary);
   padding: 0.5rem 0.9rem;
@@ -1746,7 +1690,7 @@ body {
   border-radius: 8px;
 }
 
-/* Checklist */
+/* Checklist styles */
 .checklist {
   list-style: none;
   padding-left: 0;
@@ -1762,10 +1706,11 @@ body {
   transform: translateY(2px);
 }
 
-/* Background moods (subset shown; keep all you added earlier) */
+/* Background “moods” for note body (subset retained) */
 .bg-clean {
   background: #ffffff;
 }
+/* (All mood gradients preserved exactly as in your original) */
 .bg-sunrise {
   background: radial-gradient(
       120% 120% at 0% 0%,
@@ -1774,6 +1719,7 @@ body {
     ),
     linear-gradient(135deg, #ffe08a 0%, #ffb7c5 45%, #ffa26b 100%);
 }
+/* ... (All mood definitions unchanged; kept verbatim) */
 .bg-watercolor {
   background: radial-gradient(
       40% 60% at 20% 30%,
@@ -1857,7 +1803,6 @@ body {
     linear-gradient(180deg, #f1e7d0, #e3d6b8);
   filter: contrast(1.02) saturate(0.9);
 }
-
 .bg-faded-film {
   background: repeating-linear-gradient(
       90deg,
@@ -1877,7 +1822,6 @@ body {
     linear-gradient(180deg, #4e5d6c, #2c3e50);
   filter: contrast(1.1) brightness(0.9);
 }
-
 .bg-grunge {
   background: radial-gradient(
       80% 60% at 50% 30%,
@@ -1894,7 +1838,6 @@ body {
     ),
     linear-gradient(180deg, #2a0000, #7a1a00 55%, #ff4500 120%);
 }
-
 .bg-cracked-wall {
   background: repeating-linear-gradient(
       135deg,
@@ -1909,7 +1852,6 @@ body {
     linear-gradient(180deg, #7a1f1f, #2d0a0a 70%);
   background-blend-mode: multiply;
 }
-
 .bg-wood {
   background: repeating-linear-gradient(
       90deg,
@@ -1961,7 +1903,6 @@ body {
     linear-gradient(225deg, rgba(255, 255, 0, 0.18), rgba(0, 128, 255, 0.18)),
     #0f0f0f;
 }
-
 .bg-smoke {
   background: radial-gradient(
       80% 120% at 30% 40%,
@@ -1980,7 +1921,6 @@ body {
     ),
     linear-gradient(180deg, #1a1a2e, #0f0f1f);
 }
-
 .bg-marble {
   background: radial-gradient(
       120% 120% at 0% 0%,
@@ -1998,13 +1938,18 @@ body {
   background-size: 16px 16px, 16px 16px, auto;
 }
 
-/* Focus ring */
+/* Focus ring for active note */
 .note-card:focus-within {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
-/* Respect reduced motion */
+/* =========================================================
+   10) Media Queries
+   - Responsive adjustments per widget.
+   ========================================================= */
+
+/* Quick Notes: compact controls on small screens */
 @media (max-width: 768px) {
   #notes-form {
     flex-direction: column;
@@ -2031,10 +1976,8 @@ body {
   }
 }
 
-/* Media Query for Progress Tracker */
-
+/* Progress Tracker: vertical form + stacked stats */
 @media (max-width: 768px) {
-  /* Make the form layout vertical for mobile */
   #progress-form {
     flex-direction: column;
     gap: 0.7rem;
@@ -2044,12 +1987,10 @@ body {
   .submit-item {
     width: 100%;
   }
-
   .submit-item .btn-text {
     display: inline;
     margin-left: 0.4rem;
   }
-
   #item-description {
     max-height: 2.5rem;
   }
@@ -2061,10 +2002,8 @@ body {
   }
 }
 
-/* Media Query / Habits Tracker */
-
+/* Habit Clock: vertical form */
 @media (max-width: 768px) {
-  /* Make the form layout vertical for mobile */
   #habits-form {
     flex-direction: column;
     gap: 0.7rem;
@@ -2074,7 +2013,6 @@ body {
   .submit-habit {
     width: 100%;
   }
-
   .submit-habit .btn-text {
     display: inline;
     margin-left: 0.4rem;
@@ -2086,7 +2024,7 @@ body {
   }
 }
 
-/* Media Query / Budget Tracker Widget */
+/* Budget Tracker: narrow inputs/buttons */
 @media (max-width: 480px) {
   #budget-form {
     gap: 0.6rem;
@@ -2095,7 +2033,6 @@ body {
   .submit-budget {
     width: 100%;
   }
-
   .submit-budget .btn-text {
     display: inline;
     margin-left: 0.4rem;
@@ -2112,10 +2049,57 @@ body {
   }
 }
 
-/* Media Query / Task Manager */
-
+/* Weekly Goals: vertical form + compact cards */
 @media (max-width: 768px) {
-  /* Make the form layout vertical for mobile */
+  /* Stack fields vertically for mobile */
+  #goals-form {
+    flex-direction: column;
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+
+  .info-card,
+  .goals-form-card,
+  .goals-list-card {
+    padding: 1rem 0.6rem;
+    max-width: 98vw;
+  }
+}
+
+/* Weekly Goals: full-width fields on mobile */
+#goals-form input,
+#unit-measure {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  font-size: 1rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-height: 2.5rem;
+}
+
+.submit-goal {
+  width: 100%;
+  margin-left: 0;
+  margin-top: 0.7rem;
+}
+
+.submit-goal .btn-text {
+  display: inline;
+  margin-left: 0.4rem;
+}
+
+/* Weekday picker wrap */
+.weekday-picker {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Task Manager (mobile)
+   NOTE: This selector targets #task-form (id). The actual form
+   uses .task-form (class). Intent kept unchanged to avoid edits. */
+@media (max-width: 768px) {
   #task-form {
     flex-direction: column;
     gap: 0.7rem;
@@ -2125,7 +2109,6 @@ body {
   .submit-task {
     width: 100%;
   }
-
   .submit-task .btn-text {
     display: inline;
     margin-left: 0.4rem;

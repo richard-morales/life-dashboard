@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!--
+      Life Dashboard — Habit Clock (habits.html)
+      ------------------------------------------------------------
+      Purpose: Lets users track habits over time, visualized as
+      “habit clocks” that count commitment duration since a start date.
+      Features:
+      - Form to add a habit with description + start date
+      - Dynamic list of active habit clocks
+    -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Habit Clock</title>
 
+    <!-- Performance: preconnect to font CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Typography: Roboto family (all weights, normal & italic) -->
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
 
+    <!-- App styles -->
     <link rel="stylesheet" href="style.css" />
+
+    <!-- Icons: Font Awesome (used in form and headings) -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -20,9 +35,17 @@
   </head>
 
   <body>
-    <!-- App Container -->
+    <!--
+      App Container
+      ------------------------------------------------------------
+      Consistent structural wrapper across all widgets.
+    -->
     <div class="app-container">
-      <!-- App header -->
+      <!--
+        Header
+        ----------------------------------------------------------
+        Displays widget illustration, title, and tagline.
+      -->
       <header class="app-header">
         <img
           src="assets/images/widgets/habit-tracker.svg"
@@ -33,9 +56,18 @@
         <p>Honoring your daily commitment, one day at a time.</p>
       </header>
 
-      <!-- Widget Tools -->
+      <!--
+        Main Content
+        ----------------------------------------------------------
+        Contains info card, form for adding habits, and list of
+        rendered habit clocks.
+      -->
       <main>
-        <!-- Card that explains the purpose of tracking progress -->
+        <!--
+          Info Card
+          --------------------------------------------------------
+          Provides context and motivation for habit tracking.
+        -->
         <section class="info-card">
           <h2>Why it matters</h2>
           <p>
@@ -45,6 +77,15 @@
           </p>
         </section>
 
+        <!--
+          Add Habit Form
+          --------------------------------------------------------
+          Inputs:
+          - Description of habit
+          - Start date (date picker)
+          Output:
+          - On submit, adds a new habit clock to the gallery.
+        -->
         <section class="card habits-widget">
           <form id="habits-form">
             <label for="habit-description" class="visually-hidden"
@@ -67,13 +108,20 @@
               required
             />
 
+            <!-- Submit Button -->
             <button type="submit" class="submit-habit">
               <i class="fa-solid fa-plus"></i>
               <span class="btn-text">Add Habit</span>
             </button>
           </form>
         </section>
-        <!-- Habits List Card (hidden when empty) -->
+
+        <!--
+          Habits Gallery
+          --------------------------------------------------------
+          Initially hidden. Populated dynamically with habit clocks
+          once habits are added by the user.
+        -->
         <section class="card" id="habits-clocks-section" style="display: none">
           <h2>Your Habit Clocks</h2>
           <ul id="habits-gallery">
@@ -82,12 +130,21 @@
         </section>
       </main>
 
-      <!-- Back To Dashboard Link -->
+      <!--
+        Back Navigation
+        --------------------------------------------------------
+        Returns the user to the main dashboard.
+      -->
       <div class="back-link-container">
         <a href="index.html" class="back-link">Back to Dashboard</a>
       </div>
 
-      <!-- Footer -->
+      <!--
+        Footer
+        --------------------------------------------------------
+        Common footer across all widget pages. External links
+        open in new tabs.
+      -->
       <footer class="app-footer">
         <p>Simple tools. Real life. — Richard Morales</p>
         <nav class="footer-links">
@@ -104,6 +161,12 @@
       </footer>
     </div>
 
+    <!--
+      Scripts
+      --------------------------------------------------------
+      habits.js: manages habit creation, rendering habit clocks,
+      and persistence.
+    -->
     <script src="habits.js"></script>
   </body>
 </html>

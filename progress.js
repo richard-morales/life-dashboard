@@ -1,23 +1,30 @@
 /**
- * Progress Tracker widget
+ * Progress Tracker — widget logic
  * ------------------------------------------------------------
- * Renders one progress card per tracker (chart + stats + history table).
- * - Data model is persisted to localStorage under "progressTrackers".
- * - Charts are drawn with Chart.js (line), with a custom horizontal scrollbar.
- * - Table body shows a scrollable window of the most recent rows.
+ * One progress card per tracker (line chart + summary stats + history table).
  *
- * Key UX decisions:
- * - The chart area scrolls horizontally (no squeezing with many points).
- * - Custom bar (left/right arrows + draggable thumb) controls horizontal scroll.
- * - The chart height is synced to the stats/table area for visual balance.
- * - A placeholder option is injected into the unit <select> for clearer UX.
+ * Data
+ * - Persisted in localStorage under "progressTrackers".
  *
- * Dependencies:
- * - Chart.js (and chartjs-plugin-zoom if present)
+ * Charts
+ * - Rendered with Chart.js (line).
+ * - Horizontal scrolling uses native overflow plus a custom scrollbar (thumb).
  *
- * Notes for maintainers:
- * - Keep comments focused on *why* and non-obvious *what*.
- * - If you modify the data shape, update the JSDoc typedefs below.
+ * Table
+ * - Shows a fixed window of the most recent rows via a scrollable tbody.
+ *
+ * UX rationale
+ * - Prefer horizontal scrolling over compressing dense time series.
+ * - Custom bar (◀/▶ + draggable thumb) mirrors the chart's scroll position.
+ * - Chart height is kept in balance with the stats/table area.
+ * - A placeholder <option> is injected into the unit <select> to clarify intent.
+ *
+ * Dependencies
+ * - Chart.js (optionally chartjs-plugin-zoom if present).
+ *
+ * Maintainers
+ * - Document *why* and any non-obvious *what*.
+ * - If the data schema changes, update the typedefs below.
  */
 
 /**
@@ -29,7 +36,7 @@
  */
 
 // ====== Config ======
-// Tweakable constants collected here to avoid magic numbers in logic.
+// Collect tweakable constants here to avoid "magic numbers".
 const MIN_CHART_HEIGHT = 220;
 const MAX_CHART_HEIGHT = 480;
 const MAX_VISIBLE_TICKS = 8;
@@ -38,8 +45,8 @@ const SCROLL_STEP = 200; // Custom scrollbar: px moved per arrow tap.
 const SCROLL_HOLD_MS = 18; // Custom scrollbar: repeat rate while holding arrows.
 
 /**
- * Compute horizontal pixels-per-point for the chart given the sample size.
- * Wider spacing for low counts, tighter for dense series.
+ * Horizontal spacing per point (px) based on series length.
+ * Wider spacing for small series; tighter for dense ones.
  * @param {number} count
  * @returns {number}
  */
@@ -53,7 +60,7 @@ function pxPerPoint(count) {
 // ====== Date helpers (local-safe) ======
 
 /**
- * Get today's date as YYYY-MM-DD in local time (avoids UTC day-shift issues).
+ * Today in local time as YYYY-MM-DD (avoids UTC off-by-one).
  * @returns {string}
  */
 function todayLocalISO() {
@@ -65,7 +72,7 @@ function todayLocalISO() {
 }
 
 /**
- * Parse YYYY-MM-DD to a local Date object.
+ * Parse YYYY-MM-DD into a local Date.
  * @param {string} s
  * @returns {Date}
  */
@@ -84,22 +91,19 @@ const progressTrackersContainer = document.getElementById(
 );
 
 /**
- * Ensure the <select> element has a non-submittable placeholder option.
- * When `forceSelect` is true, the placeholder is always selected, overriding
- * browser memory of previous choices (useful on page load or form reset).
+ * Ensure the <select> includes a disabled placeholder.
+ * When forceSelect is true, re-select the placeholder (fresh state).
  *
  * @param {boolean} [forceSelect=false] - Forces the placeholder to be selected.
  */
 function ensureSelectPlaceholder(forceSelect = false) {
   if (!unitSelect) return;
 
-  // Make the field required for form validation
+  // Use HTML validation
   unitSelect.required = true;
 
-  // Look for an existing placeholder option
+  // Create placeholder on first run if missing
   let placeholder = unitSelect.querySelector('option[data-placeholder="true"]');
-
-  // If it doesn't exist, create and insert it as the first option
   if (!placeholder) {
     placeholder = document.createElement("option");
     placeholder.value = "";
@@ -109,19 +113,19 @@ function ensureSelectPlaceholder(forceSelect = false) {
     unitSelect.insertBefore(placeholder, unitSelect.firstChild);
   }
 
-  // If forceSelect is true, reset the selection to the placeholder
+  // Reset selection if requested
   if (forceSelect) {
     unitSelect.selectedIndex = 0;
   }
 }
 
-// Ensure placeholder is selected when the page loads
+// Ensure placeholder is selected on initial page load
 document.addEventListener("DOMContentLoaded", () => {
   ensureSelectPlaceholder(true);
 });
 
 /**
- * Show/hide the custom unit input based on the current select value.
+ * Show/hide the custom unit input based on the current selection.
  * Keeps behavior correct on reloads, changes, and form resets.
  */
 function updateCustomUnitVisibility() {
@@ -129,15 +133,15 @@ function updateCustomUnitVisibility() {
 }
 
 // ====== State ======
-// All trackers in-memory; persisted to localStorage on each change.
+// In-memory trackers; write-through to localStorage on change.
 let trackers = [];
-// Chart.js instances by tracker id (so we can destroy/recreate safely).
+// Chart.js instances keyed by tracker id (enables safe destroy/recreate).
 const chartInstances = {};
-// DOM caches for custom scrolling mechanics.
+// DOM caches for the custom horizontal scrollbar.
 const chartInnerMap = {}; // trackerId -> inner div that controls width
 const hbarTrackMap = {}; // trackerId -> custom bar track
 const hbarThumbMap = {}; // trackerId -> custom bar thumb
-const arrowTimers = {}; // trackerId -> {left,right}
+const arrowTimers = {}; // trackerId -> {left,right} repeat timers
 
 // ====== Restore on load ======
 window.addEventListener("DOMContentLoaded", () => {
@@ -148,16 +152,15 @@ window.addEventListener("DOMContentLoaded", () => {
       trackers.forEach(renderTracker);
     }
   } catch {
-    // If corrupted storage or parsing fails, start clean.
+    // If storage is corrupted, start fresh.
     trackers = [];
   }
 
-  // UX: Insert placeholder on first visit, or re-assert after resets.
+  // Fresh form state and visibility on load
   ensureSelectPlaceholder(trackers.length === 0);
-  // Ensure custom unit input matches current selection on reload.
   updateCustomUnitVisibility();
 
-  // Keep the custom bar thumb sized/positioned on viewport changes.
+  // Keep the scrollbar metrics in sync with viewport changes.
   window.addEventListener("resize", () =>
     trackers.forEach((t) => updateScrollbarMetrics(t.id))
   );
@@ -166,8 +169,7 @@ window.addEventListener("DOMContentLoaded", () => {
 // ====== Persistence ======
 
 /**
- * Persist the current trackers array to localStorage.
- * Single source of truth for storage writes.
+ * Single point for persisting trackers to localStorage.
  */
 function saveTrackers() {
   localStorage.setItem("progressTrackers", JSON.stringify(trackers));
@@ -206,7 +208,7 @@ form.addEventListener("submit", (e) => {
 // ====== Delete tracker ======
 
 /**
- * Remove a tracker, its chart instance, and its DOM section.
+ * Remove a tracker, destroy its chart instance, and clean up DOM caches.
  * @param {number} id
  * @param {HTMLElement} [sectionNode]
  */
@@ -230,8 +232,11 @@ function deleteTracker(id, sectionNode) {
 // ====== Render tracker ======
 
 /**
- * Create all DOM for a tracker card and mount it.
- * Includes: header, input + add button, chart area, custom scrollbar, and stats/table.
+ * Build and mount the tracker card:
+ * - Header (title + delete)
+ * - Entry input + “Add Result”
+ * - Chart area (scrollable) + custom scrollbar
+ * - Stats box + scrollable history table (sticky header)
  * @param {Tracker} tracker
  */
 function renderTracker(tracker) {
@@ -277,8 +282,8 @@ function renderTracker(tracker) {
   btn.textContent = "Add Result";
 
   /**
-   * Push a new data point (today's date + numeric value).
-   * Validates positive numbers only; redraws chart and table.
+   * Append a new entry (today’s date + numeric value).
+   * Only positive numbers are accepted. Redraws chart and table after save.
    */
   function addEntry() {
     const val = parseFloat((input.value || "").trim());
@@ -299,7 +304,7 @@ function renderTracker(tracker) {
     }
   });
 
-  // ===== Layout container for chart + custom bar + table =====
+  // Layout container for chart + custom bar + stats/table
   const area = document.createElement("div");
   area.className = "chart-and-table-vertical"; // CSS controls column layout + gaps.
 
@@ -307,13 +312,13 @@ function renderTracker(tracker) {
   const wrap = document.createElement("div");
   wrap.className = "chart-scroll-container";
   wrap.id = `wrap-${tracker.id}`;
-  // Inline styles kept in JS because height is synced dynamically.
+  // Height set here; later synced to the info area for visual balance.
   wrap.style.height = `${MIN_CHART_HEIGHT}px`;
   wrap.style.minWidth = "0";
   wrap.style.overflowX = "auto";
   enableHorizontalScrollUX(wrap);
 
-  // Inner width controller (stretched to data width so we can scroll)
+  // Inner width controller (expands with data count to enable scrolling)
   const inner = document.createElement("div");
   inner.id = `inner-${tracker.id}`;
   inner.style.height = "100%";
@@ -321,7 +326,7 @@ function renderTracker(tracker) {
   inner.style.minWidth = "100%";
   chartInnerMap[tracker.id] = inner;
 
-  // Chart canvas (sized via exact pixels for crisp DPR rendering)
+  // Chart canvas (CSS size; DPR handled in drawChart)
   const canvas = document.createElement("canvas");
   canvas.id = `chart-${tracker.id}`;
   canvas.style.width = "100%";
@@ -385,7 +390,7 @@ function renderTracker(tracker) {
   // Enable thumb dragging for fine-grained control.
   setupThumbDrag(tracker.id);
 
-  // Stats + table container (table body is scrollable window)
+  // Stats + table container (tbody scrolls; header is sticky)
   const info = document.createElement("div");
   info.className = "history-table-container";
   info.id = `table-${tracker.id}`;
@@ -398,19 +403,19 @@ function renderTracker(tracker) {
   trackerSection.appendChild(card);
   progressTrackersContainer.appendChild(trackerSection);
 
-  // Initial render after mounting.
+  // Initial render after mount
   drawChart(tracker);
   renderStatsAndTable(tracker);
 
-  // Keep custom thumb position in sync when user drags chart directly.
+  // Keep the custom thumb in sync with native scroll.
   wrap.addEventListener("scroll", () => updateThumbPosition(tracker.id));
 }
 
 // ====== Chart drawing ======
 
 /**
- * Create/replace the Chart.js line chart for the given tracker.
- * Handles pixel-perfect canvas sizing (DPR) and dynamic inner width.
+ * Create/replace the Chart.js line chart for a tracker.
+ * Handles DPR-aware sizing and inner width for horizontal scroll.
  * @param {Tracker} tracker
  */
 function drawChart(tracker) {
@@ -424,7 +429,7 @@ function drawChart(tracker) {
     chartInstances[tracker.id].destroy();
   }
 
-  // Keep history sorted by date for correct time order in the chart.
+  // Sort by date to ensure correct x-axis order.
   const history = tracker.history
     .slice()
     .sort((a, b) => parseISODateLocal(a.date) - parseISODateLocal(b.date));
@@ -438,7 +443,7 @@ function drawChart(tracker) {
   );
   inner.style.width = widthNeeded + "px";
 
-  // DPR-aware canvas sizing for crisp lines.
+  // DPR-aware canvas sizing for crisp output.
   const dpr = window.devicePixelRatio || 1;
   const cssW = inner.clientWidth;
   const cssH = wrap.clientHeight;
@@ -467,7 +472,7 @@ function drawChart(tracker) {
       ],
     },
     options: {
-      responsive: false, // We manage size explicitly for horizontal scroll.
+      responsive: false, // Size is managed manually for scroll behavior.
       maintainAspectRatio: false,
       plugins: {
         decimation: { enabled: true, algorithm: "lttb", samples: 200 },
@@ -490,7 +495,7 @@ function drawChart(tracker) {
 
   chartInstances[tracker.id] = chart;
 
-  // UX: Jump to the latest point and size custom scrollbar correctly.
+  // On first draw, scroll to the latest point and size the custom scrollbar.
   requestAnimationFrame(() => {
     wrap.scrollLeft = wrap.scrollWidth;
     updateScrollbarMetrics(tracker.id);
@@ -501,8 +506,7 @@ function drawChart(tracker) {
 // ====== Stats + Scrollable Table (5-row body, sticky header) ======
 
 /**
- * Render summary stats and a scrollable table (latest rows at the top).
- * Table body is capped to VISIBLE_ROWS via a max-height holder.
+ * Render summary stats and a scrollable history table (latest first).
  * @param {Tracker} tracker
  */
 function renderStatsAndTable(tracker) {
@@ -555,13 +559,13 @@ function renderStatsAndTable(tracker) {
     </div>
   `;
 
-  // Table is a normal table; we wrap it in a scroll container with sticky thead.
+  // Plain table markup; the wrapper provides a sticky thead and a scrollable tbody.
   const tableEl = document.getElementById(`table-el-${tracker.id}`);
   tableEl.style.display = "table";
   tableEl.style.maxHeight = "none";
   tableEl.style.overflow = "visible";
 
-  // Sticky header while the tbody scrolls.
+  // Sticky header instructions for the scroll container.
   container.querySelectorAll("thead th").forEach((th) => {
     th.style.position = "sticky";
     th.style.top = "0";
@@ -569,7 +573,7 @@ function renderStatsAndTable(tracker) {
     th.style.background = th.style.background || "#f6fafd";
   });
 
-  // Compute max-height to show exactly VISIBLE_ROWS + header, then enable scroll.
+  // Compute max-height for exactly VISIBLE_ROWS + header; enable vertical scroll if needed.
   const scrollWrap = document.getElementById(`scroll-${tracker.id}`);
   const thead = scrollWrap.querySelector("thead");
   const tbody = scrollWrap.querySelector("tbody");
@@ -584,7 +588,7 @@ function renderStatsAndTable(tracker) {
     scrollWrap.style.overflowY = rowsCount > VISIBLE_ROWS ? "auto" : "hidden";
     scrollWrap.scrollTop = 0;
 
-    // Resize chart container to roughly match the info area (visual balance).
+    // Keep the chart visually balanced with the info area.
     syncChartHeightToTable(tracker.id);
   });
 }
@@ -592,7 +596,7 @@ function renderStatsAndTable(tracker) {
 // ====== Custom scrollbar logic ======
 
 /**
- * Gather current geometry for wrap/track/thumb and compute useful derived values.
+ * Capture geometry for wrap/track/thumb and derive sizing/limits.
  * @param {number} id
  */
 function getScrollState(id) {
@@ -622,8 +626,8 @@ function getScrollState(id) {
 }
 
 /**
- * Size the custom thumb and ensure it stays within the track bounds.
- * Hide the custom track entirely if no horizontal overflow exists.
+ * Size the custom thumb and clamp its position within track bounds.
+ * Hide the entire track when no horizontal overflow exists.
  * @param {number} id
  */
 function updateScrollbarMetrics(id) {
@@ -635,7 +639,7 @@ function updateScrollbarMetrics(id) {
 }
 
 /**
- * Move the custom thumb to reflect the wrap's current scrollLeft.
+ * Reflect the wrap's scrollLeft by positioning the thumb.
  * @param {number} id
  */
 function updateThumbPosition(id) {
@@ -649,7 +653,7 @@ function updateThumbPosition(id) {
 }
 
 /**
- * Given a desired thumb-left (px), set wrap.scrollLeft proportionally.
+ * Given a desired thumb-left in px, set wrap.scrollLeft proportionally.
  * @param {number} id
  * @param {number} leftPx
  */
@@ -663,7 +667,7 @@ function setScrollFromThumbLeft(id, leftPx) {
 
 /**
  * Enable mouse/touch dragging on the custom thumb.
- * Adds a "grabbing" / "dragging" class during the drag for better cursor UX.
+ * Adds "grabbing"/"dragging" classes for user feedback during drag.
  * @param {number} id
  */
 function setupThumbDrag(id) {
@@ -687,7 +691,7 @@ function setupThumbDrag(id) {
       document.removeEventListener("touchmove", move);
       document.removeEventListener("touchend", up);
       document.body.style.userSelect = "";
-      // Remove grabbing state (cursor + track/ thumb feedback).
+      // Remove dragging visual state
       thumb.classList.remove("grabbing");
       track.classList.remove("dragging");
     };
@@ -724,44 +728,7 @@ function setupThumbDrag(id) {
 // ====== Scroll helpers ======
 
 /**
- * Wire up an arrow button to scroll the wrap by a fixed step.
- * Supports click-and-hold with a repeat interval.
- * @param {HTMLButtonElement} btn
- * @param {() => void} action
- * @param {number} id
- * @param {"left"|"right"} side
- */
-function setupArrow(btn, action, id, side) {
-  const timers = arrowTimers[id];
-  const start = () => {
-    if (timers[side]) return;
-    action();
-    timers[side] = setInterval(action, SCROLL_HOLD_MS);
-  };
-  const stop = () => {
-    clearInterval(timers[side]);
-    timers[side] = null;
-  };
-  btn.addEventListener("mousedown", start);
-  btn.addEventListener(
-    "touchstart",
-    (e) => {
-      e.preventDefault();
-      start();
-    },
-    { passive: false }
-  );
-  ["mouseup", "mouseleave", "touchend", "touchcancel"].forEach((evt) =>
-    btn.addEventListener(evt, stop)
-  );
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    action();
-  });
-}
-
-/**
- * Smooth horizontal scroll helper for the chart wrap.
+ * Scroll the chart container by a fixed distance with smooth behavior.
  * @param {HTMLElement} el
  * @param {number} dx
  */
@@ -772,7 +739,7 @@ function smoothScrollBy(el, dx) {
 // ====== Misc helpers ======
 
 /**
- * Clamp a number between [min, max].
+ * Clamp number n to the [min, max] range.
  * @param {number} n
  * @param {number} min
  * @param {number} max
@@ -782,7 +749,7 @@ function clamp(n, min, max) {
 }
 
 /**
- * Visually sync chart container height to the info area to avoid large imbalance.
+ * Keep the chart container height roughly aligned with the info block.
  * Chart.js requires resize() after height changes for crisp rendering.
  * @param {number} trackerId
  */
@@ -797,21 +764,22 @@ function syncChartHeightToTable(trackerId) {
     const target = clamp(h, MIN_CHART_HEIGHT, MAX_CHART_HEIGHT);
     wrap.style.height = `${target}px`;
     chart.resize();
-    // Second resize after paint helps with DPR/layout edge cases.
+    // Second resize after paint helps in certain DPR/layout cases.
     requestAnimationFrame(() => chart.resize());
   });
 }
 
 /**
- * Enable pointer/trackpad dragging to scroll horizontally.
- * Wheel on vertical delta is remapped to horizontal movement for convenience.
+ * Enable convenient horizontal scrolling:
+ * - Remap vertical wheel deltas to horizontal when appropriate.
+ * - Support pointer drag-to-scroll for trackpads/mice.
  * @param {HTMLElement} wrap
  */
 function enableHorizontalScrollUX(wrap) {
   wrap.addEventListener(
     "wheel",
     (e) => {
-      if (e.ctrlKey || e.altKey) return; // allow browser zoom/alt behaviors
+      if (e.ctrlKey || e.altKey) return; // let browser zoom/alt behavior through
       if (wrap.scrollWidth <= wrap.clientWidth) return;
       if (Math.abs(e.deltaY) >= Math.abs(e.deltaX)) {
         wrap.scrollLeft += e.deltaY;
@@ -854,7 +822,7 @@ function enableHorizontalScrollUX(wrap) {
 }
 
 /**
- * Coalesce frequent drag updates behind rAF to keep the custom thumb smooth.
+ * Coalesce frequent drag updates behind rAF for smooth thumb movement.
  * @param {string} wrapId
  */
 function updateThumbPositionFromRAF(wrapId) {
@@ -863,13 +831,50 @@ function updateThumbPositionFromRAF(wrapId) {
 }
 
 /**
- * Apply minimal styles to arrow buttons via a shared CSS class.
+ * Apply shared styling/hover feedback to arrow buttons.
  * @param {HTMLButtonElement} btn
  */
 function styleArrowBtn(btn) {
   btn.classList.add("arrow-btn");
   btn.addEventListener("mouseenter", () => (btn.style.background = "#eaf2ff"));
   btn.addEventListener("mouseleave", () => (btn.style.background = "#f6fafd"));
+}
+
+/**
+ * Wire an arrow button to scroll the chart by a fixed step.
+ * Supports click-and-hold with a repeat interval.
+ * @param {HTMLButtonElement} btn
+ * @param {() => void} action
+ * @param {number} id
+ * @param {"left"|"right"} side
+ */
+function setupArrow(btn, action, id, side) {
+  const timers = arrowTimers[id];
+  const start = () => {
+    if (timers[side]) return;
+    action();
+    timers[side] = setInterval(action, SCROLL_HOLD_MS);
+  };
+  const stop = () => {
+    clearInterval(timers[side]);
+    timers[side] = null;
+  };
+  btn.addEventListener("mousedown", start);
+  btn.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      start();
+    },
+    { passive: false }
+  );
+  ["mouseup", "mouseleave", "touchend", "touchcancel"].forEach((evt) =>
+    btn.addEventListener(evt, stop)
+  );
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    action();
+  });
 }
 
 /* End of file */

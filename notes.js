@@ -1,11 +1,13 @@
 /**
- * Quick Notes – Expressive Writer (Integrated + Fixes)
+ * Quick Notes – Rich Text Editor
+ * ------------------------------------------------------------
+ * Features:
  * - Expressive fonts, moods, palettes, bullets
  * - Bold/Italic, lists, quote, checklist
  * - Text/vertical alignment, orientation
  * - PNG/PDF export
  * - Immutable title, localStorage, large canvas
- * - FIXES: color apply, vertical align, rotated, single-item checklist, wrapping
+ * - Fixes: color apply, vertical align, rotated, single-item checklist, wrapping
  */
 (() => {
   "use strict";
