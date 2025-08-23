@@ -477,6 +477,8 @@ body {
   display: flex;
   align-items: center;
   gap: 0.9rem;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .transaction-card .icon {
@@ -494,9 +496,11 @@ body {
 }
 
 .transaction-card .description {
-  font-weight: 500;
-  color: var(--text);
-  letter-spacing: 0.01em;
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .transaction-card .amount {
@@ -507,9 +511,10 @@ body {
 }
 
 .transaction-amount-group {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  flex: 0 0 auto;
+  margin-left: auto;
+  white-space: nowrap;
+  text-align: right;
 }
 
 .delete-transaction {
@@ -2046,6 +2051,14 @@ body {
     height: 2.3rem;
     min-height: unset;
     box-sizing: border-box;
+  }
+
+  .transaction-card .description {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* 2 lines, then … */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
