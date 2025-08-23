@@ -62,6 +62,9 @@ function renderTransactions() {
     return;
   }
 
+  transactionSection.style.display = "block";
+  summarySection.style.display = "block";
+
   // Transaction cards
   const transactionCards = transactions
     .map(
@@ -171,10 +174,6 @@ function renderTransactions() {
   });
   summarySection.appendChild(resetBtn);
 }
-
-// Ensure sections are visible (unless explicitly hidden by empty state)
-transactionSection.style.display = "block";
-summarySection.style.display = "block";
 
 // ------------------------------------------------------------
 // Event: Form Submission
