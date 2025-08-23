@@ -120,40 +120,32 @@ Set weekly goals with targets and track progress visually with a progress bar.
 
 ## 📂 Project Structure
 
-life-dashboard/
-│
-├── index.html
-│
-├── task.html        ─┐
-├── task.js          ─┘  Task Manager
-│
-├── goals.html       ─┐
-├── goals.js         ─┘  Weekly Goals
-│
-├── notes.html       ─┐
-├── notes.js         ─┘  Quick Notes
-│
-├── habits.html      ─┐
-├── habits.js        ─┘  Habit Clock
-│
-├── budget.html      ─┐
-├── budget.js        ─┘  Budget Tracker
-│
-├── progress.html    ─┐
-├── progress.js      ─┘  Progress Tracker
-│
-├── style.css
-├── assets/
-│   ├── images/...
-│   └── screenshots/
-│       ├── dashboard.png
-│       ├── task-manager.png
-│       ├── weekly-goals.png
-│       ├── quick-notes.png
-│       ├── habit-clock.png
-│       ├── budget-tracker.png
-│       └── progress-tracker.png
-└── README.md
+life-dashboard/  
+├── index.html # Main dashboard page  
+├── task.html # Task Manager page  
+├── task.js # Task Manager logic  
+├── goals.html # Weekly Goals page  
+├── goals.js # Weekly Goals logic  
+├── notes.html # Quick Notes page  
+├── notes.js # Quick Notes logic  
+├── habits.html # Habit Clock page  
+├── habits.js # Habit Clock logic  
+├── budget.html # Budget Tracker page  
+├── budget.js # Budget Tracker logic  
+├── progress.html # Progress Tracker page  
+├── progress.js # Progress Tracker logic  
+├── style.css # Shared styles  
+├── assets/  
+│ └── images/  
+│ └── screenshots/ # App screenshots  
+│ ├── dashboard.png  
+│ ├── task-manager.png  
+│ ├── weekly-goals.png  
+│ ├── quick-notes.png  
+│ ├── habit-clock.png  
+│ ├── progress-tracker.png  
+│ └── budget-tracker.png  
+└── README.md # Documentation
 
 ## 💾 Persistence
 
